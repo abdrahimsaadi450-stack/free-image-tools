@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="description" content="Free online background remover. Remove simple image backgrounds directly in your browser and download the result as a transparent PNG.">
+  <meta name="description" content="Free online background remover. Remove simple image backgrounds directly in your browser and download a transparent PNG.">
 
   <meta name="robots" content="index, follow">
 
@@ -43,7 +42,7 @@
     }
 
     .container {
-      max-width: 900px;
+      max-width: 950px;
       margin: auto;
       padding: 30px 20px;
     }
@@ -54,7 +53,7 @@
       padding: 28px;
       margin-bottom: 25px;
       border-radius: 14px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
 
     .tool-box {
@@ -63,7 +62,7 @@
 
     input[type="file"] {
       width: 100%;
-      max-width: 500px;
+      max-width: 520px;
       padding: 12px;
       margin: 15px 0;
       border: 1px solid #ccc;
@@ -72,17 +71,25 @@
       background: white;
     }
 
-    label {
-      display: block;
-      max-width: 500px;
-      margin: 15px auto 5px;
+    .controls {
+      max-width: 520px;
+      margin: 20px auto;
       text-align: left;
+    }
+
+    .control {
+      margin-bottom: 22px;
+    }
+
+    .control label {
+      display: flex;
+      justify-content: space-between;
       font-weight: bold;
+      margin-bottom: 7px;
     }
 
     input[type="range"] {
       width: 100%;
-      max-width: 500px;
       cursor: pointer;
     }
 
@@ -90,21 +97,26 @@
       background: #111827;
       color: white;
       border: 0;
-      padding: 12px 22px;
+      padding: 13px 24px;
       border-radius: 8px;
       font-size: 16px;
       cursor: pointer;
-      margin-top: 15px;
+      margin-top: 10px;
     }
 
     button:hover {
       opacity: 0.9;
     }
 
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     #download {
       display: inline-block;
       margin-top: 15px;
-      padding: 12px 20px;
+      padding: 13px 22px;
       background: #16a34a;
       color: white;
       text-decoration: none;
@@ -112,13 +124,35 @@
       font-weight: bold;
     }
 
+    .preview-area {
+      margin-top: 25px;
+    }
+
+    .preview-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
     #preview {
       display: block;
       max-width: 100%;
       height: auto;
-      margin: 20px auto;
+      max-height: 600px;
+      margin: 15px auto;
       border: 1px solid #ddd;
       border-radius: 8px;
+      background:
+        linear-gradient(45deg, #ddd 25%, transparent 25%),
+        linear-gradient(-45deg, #ddd 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ddd 75%),
+        linear-gradient(-45deg, transparent 75%, #ddd 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+    }
+
+    .status {
+      margin-top: 15px;
+      font-weight: bold;
     }
 
     .back {
@@ -168,9 +202,7 @@
   </style>
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -182,23 +214,19 @@
 
 </header>
 
-
 <main class="container">
-
 
   <a class="back" href="index.html">
     ← Back to Free Image Tools
   </a>
 
-
   <div class="tool-box">
 
-    <h2>Remove Image Background</h2>
+    <h2>Free Background Remover</h2>
 
     <p>
-      Select an image with a simple background.
+      Select an image and remove its connected background directly in your browser.
     </p>
-
 
     <input
       type="file"
@@ -206,24 +234,43 @@
       accept="image/*"
     >
 
+    <div class="controls">
 
-    <label for="tolerance">
-      Background Removal Strength:
-      <span id="toleranceValue">40</span>
-    </label>
+      <div class="control">
 
+        <label>
+          <span>Removal Strength</span>
+          <span id="strengthValue">35</span>
+        </label>
 
-    <input
-      type="range"
-      id="tolerance"
-      min="10"
-      max="120"
-      value="40"
-    >
+        <input
+          type="range"
+          id="strength"
+          min="10"
+          max="120"
+          value="35"
+        >
 
+      </div>
 
-    <br>
+      <div class="control">
 
+        <label>
+          <span>Edge Softness</span>
+          <span id="softnessValue">12</span>
+        </label>
+
+        <input
+          type="range"
+          id="softness"
+          min="0"
+          max="40"
+          value="12"
+        >
+
+      </div>
+
+    </div>
 
     <button
       type="button"
@@ -232,8 +279,15 @@
       Remove Background
     </button>
 
+    <div
+      id="status"
+      class="status"
+    ></div>
 
-    <div id="result"></div>
+    <div
+      id="result"
+      class="preview-area"
+    ></div>
 
   </div>
 
@@ -243,19 +297,19 @@
     <h2>Free Online Background Remover</h2>
 
     <p>
-      This free background remover can make a simple image background
-      transparent directly in your web browser.
+      Remove simple image backgrounds and create transparent PNG images
+      directly in your browser.
     </p>
 
     <p>
-      The tool compares image pixels with the background color found
-      in the top-left corner of the image. Pixels that are sufficiently
-      similar to that color are made transparent.
+      This tool uses a browser-based color similarity and connected-background
+      detection method. Your image does not need to be uploaded to an external
+      image-processing service.
     </p>
 
     <p>
-      For the best results, use an image with a simple and relatively
-      uniform background.
+      For the best results, use images with a relatively simple and uniform
+      background.
     </p>
 
   </div>
@@ -263,33 +317,21 @@
 
   <div class="content-box">
 
-    <h2>How to Remove a Background</h2>
+    <h2>How to Remove an Image Background</h2>
 
     <ol>
 
-      <li>
-        Select an image from your device.
-      </li>
+      <li>Select an image from your device.</li>
 
-      <li>
-        Make sure the top-left corner contains the background color.
-      </li>
+      <li>Choose the removal strength.</li>
 
-      <li>
-        Adjust the background removal strength.
-      </li>
+      <li>Choose the edge softness.</li>
 
-      <li>
-        Click "Remove Background".
-      </li>
+      <li>Click "Remove Background".</li>
 
-      <li>
-        Check the preview.
-      </li>
+      <li>Check the transparent preview.</li>
 
-      <li>
-        Download the transparent PNG.
-      </li>
+      <li>Download the PNG image.</li>
 
     </ol>
 
@@ -303,23 +345,28 @@
     <ul>
 
       <li>
-        Use images with a plain background.
+        Use a plain or relatively uniform background.
       </li>
 
       <li>
-        Use a background with a consistent color.
+        Start with the default removal strength.
       </li>
 
       <li>
-        Make sure the top-left corner represents the background.
+        Increase the strength if some background remains.
       </li>
 
       <li>
-        Increase the strength if too much background remains.
+        Reduce the strength if parts of the subject disappear.
       </li>
 
       <li>
-        Decrease the strength if parts of the subject become transparent.
+        Increase edge softness when the edges look too sharp.
+      </li>
+
+      <li>
+        Images with very complex backgrounds may require an AI-based
+        background removal service.
       </li>
 
     </ul>
@@ -331,40 +378,7 @@
 
     <h2>Frequently Asked Questions</h2>
 
-
-    <h3>
-      Is this background remover free?
-    </h3>
+    <h3>Is this background remover free?</h3>
 
     <p>
-      Yes. This tool is free to use and does not require an account.
-    </p>
-
-
-    <h3>
-      Does it work with every image?
-    </h3>
-
-    <p>
-      It works best with images that have a simple and relatively
-      uniform background. Complex backgrounds may produce less
-      accurate results.
-    </p>
-
-
-    <h3>
-      Does this tool use artificial intelligence?
-    </h3>
-
-    <p>
-      No. This version uses a browser-based color similarity method
-      instead of an AI background-removal service.
-    </p>
-
-
-    <h3>
-      Are my images uploaded?
-    </h3>
-
-    <p>
-      No. The image is processed directly in your browser and
+      Yes. It is free to use and

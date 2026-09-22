@@ -3,205 +3,94 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Free Image Tools - Compress, Resize & Convert Images</title>
-
-<meta name="description" content="Free online image tools. Compress, resize and convert images quickly and privately in your browser.">
-
+<meta name="description" content="Free online image tools to compress, resize and convert JPG and PNG images quickly and easily.">
 <style>
-* {
-    box-sizing: border-box;
+body{
+    font-family:Arial,sans-serif;
+    margin:0;
+    background:#f5f7fa;
+    color:#222;
 }
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f7fa;
-    color: #222;
+header{
+    background:#111827;
+    color:white;
+    text-align:center;
+    padding:35px 15px;
 }
-
-header {
-    background: #111827;
-    color: white;
-    text-align: center;
-    padding: 35px 15px;
+header h1{
+    margin:0 0 10px;
+    font-size:32px;
 }
-
-header h1 {
-    margin: 0 0 10px;
-    font-size: 32px;
+header p{
+    margin:0;
+    color:#d1d5db;
 }
-
-header p {
-    margin: 0;
-    color: #d1d5db;
+.container{
+    max-width:1000px;
+    margin:30px auto;
+    padding:0 15px;
 }
-
-.container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 20px;
+.tools{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:18px;
 }
-
-.ad {
-    min-height: 90px;
-    background: white;
-    border: 1px solid #e5e7eb;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #9ca3af;
-    margin-bottom: 25px;
+.card{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    text-align:center;
 }
-
-.tools {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+.card h2{
+    font-size:20px;
+    margin-top:0;
 }
-
-.card {
-    background: white;
-    padding: 25px 18px;
-    border-radius: 14px;
-    text-align: center;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+.card p{
+    color:#666;
+    min-height:45px;
 }
-
-.card h2 {
-    font-size: 20px;
-    margin-top: 0;
+button,.button{
+    display:inline-block;
+    background:#2563eb;
+    color:white;
+    border:0;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    text-decoration:none;
+    font-size:15px;
 }
-
-.card p {
-    color: #6b7280;
-    line-height: 1.5;
-    min-height: 48px;
+button:hover,.button:hover{
+    background:#1d4ed8;
 }
-
-.card a {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 12px 18px;
-    background: #2563eb;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
+#compressor{
+    margin-top:30px;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    text-align:center;
 }
-
-.card a:hover {
-    background: #1d4ed8;
+input[type="file"]{
+    margin:15px 0;
 }
-
-.compressor {
-    margin-top: 25px;
-    background: white;
-    padding: 25px;
-    border-radius: 14px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+#result{
+    margin-top:20px;
 }
-
-.compressor h2 {
-    text-align: center;
+.download{
+    margin-top:15px;
 }
-
-.upload {
-    border: 2px dashed #9ca3af;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
+footer{
+    text-align:center;
+    padding:30px 15px;
+    color:#666;
 }
-
-input[type="file"] {
-    width: 100%;
-    font-size: 16px;
-}
-
-.preview {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.preview img {
-    max-width: 100%;
-    max-height: 350px;
-    border-radius: 10px;
-}
-
-button {
-    width: 100%;
-    margin-top: 20px;
-    padding: 14px;
-    border: 0;
-    border-radius: 8px;
-    background: #2563eb;
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #1d4ed8;
-}
-
-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-.result {
-    text-align: center;
-    margin-top: 20px;
-    line-height: 1.8;
-}
-
-.download {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 13px 20px;
-    background: #16a34a;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-}
-
-.info {
-    margin-top: 30px;
-    background: white;
-    padding: 25px;
-    border-radius: 14px;
-    line-height: 1.7;
-    color: #4b5563;
-}
-
-footer {
-    text-align: center;
-    padding: 35px 15px;
-    color: #6b7280;
-}
-
-footer a {
-    color: #2563eb;
-    text-decoration: none;
-    margin: 0 7px;
-}
-
-@media (max-width: 700px) {
-
-    .tools {
-        grid-template-columns: 1fr;
-    }
-
-    header h1 {
-        font-size: 26px;
-    }
-
-    .card p {
-        min-height: auto;
-    }
+footer a{
+    color:#2563eb;
+    text-decoration:none;
+    margin:0 7px;
 }
 </style>
 </head>
@@ -210,277 +99,114 @@ footer a {
 
 <header>
     <h1>Free Image Tools</h1>
-    <p>Compress, resize and convert your images online for free</p>
+    <p>Compress, resize and convert your images online for free.</p>
 </header>
 
 <div class="container">
-
-    <div class="ad">
-        Advertisement
-    </div>
-
-    <!-- TOOLS -->
 
     <div class="tools">
 
         <div class="card">
             <h2>Image Compressor</h2>
-            <p>
-                Reduce image file size quickly and easily.
-            </p>
-            <a href="#compressor">
-                Use Compressor
-            </a>
+            <p>Reduce image file size while keeping good quality.</p>
+            <a class="button" href="#compressor">Use Tool</a>
         </div>
 
         <div class="card">
             <h2>Image Resizer</h2>
-            <p>
-                Change the width and height of your images.
-            </p>
-            <a href="resize-image.html">
-                Open Resizer
-            </a>
+            <p>Resize your images to any width and height.</p>
+            <a class="button" href="resize-image.html">Open Tool</a>
         </div>
 
         <div class="card">
             <h2>JPG to PNG</h2>
-            <p>
-                Convert JPG and JPEG images to PNG format.
-            </p>
-            <a href="jpg-to-png.html">
-                Open Converter
-            </a>
+            <p>Convert JPG and JPEG images to PNG format.</p>
+            <a class="button" href="jpg-to-png.html">Open Tool</a>
+        </div>
+
+        <div class="card">
+            <h2>PNG to JPG</h2>
+            <p>Convert PNG images to JPG format quickly and easily.</p>
+            <a class="button" href="png-to-jpg.html">Open Tool</a>
         </div>
 
     </div>
 
-    <!-- COMPRESSOR -->
-
-    <div class="compressor" id="compressor">
-
+    <div id="compressor">
         <h2>Free Image Compressor</h2>
+        <p>Select an image to reduce its file size.</p>
 
-        <div class="upload">
+        <input type="file" id="imageInput" accept="image/*">
+        <br>
+        <button onclick="compressImage()">Compress Image</button>
 
-            <input
-                type="file"
-                id="imageInput"
-                accept="image/jpeg,image/png,image/webp"
-            >
-
-        </div>
-
-        <div class="preview" id="preview"></div>
-
-        <button id="compressBtn">
-            Compress Image
-        </button>
-
-        <div class="result" id="result"></div>
-
-    </div>
-
-    <div class="ad">
-        Advertisement
-    </div>
-
-    <!-- INFORMATION -->
-
-    <div class="info">
-
-        <h2>Free Online Image Tools</h2>
-
-        <p>
-            Free Image Tools provides simple and useful online tools
-            for working with your images. Compress, resize and convert
-            images directly in your browser.
-        </p>
-
-        <p>
-            Your images are processed directly on your device.
-            Files are not uploaded to our servers.
-        </p>
-
-        <h3>Our Tools</h3>
-
-        <p>
-            Use our Image Compressor to reduce file size,
-            Image Resizer to change image dimensions,
-            or JPG to PNG Converter to convert your images.
-        </p>
-
+        <div id="result"></div>
     </div>
 
 </div>
 
 <footer>
-
-    <p>© 2026 Free Image Tools</p>
-
     <a href="index.html">Home</a>
-
-    <a href="resize-image.html">
-        Image Resizer
-    </a>
-
-    <a href="jpg-to-png.html">
-        JPG to PNG
-    </a>
-
-    <a href="about.html">
-        About
-    </a>
-
-    <a href="privacy.html">
-        Privacy
-    </a>
-
-    <a href="contact.html">
-        Contact
-    </a>
-
+    <a href="resize-image.html">Resize Image</a>
+    <a href="jpg-to-png.html">JPG to PNG</a>
+    <a href="png-to-jpg.html">PNG to JPG</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="contact.html">Contact</a>
 </footer>
 
 <script>
+function compressImage(){
 
-const imageInput = document.getElementById("imageInput");
-const preview = document.getElementById("preview");
-const compressBtn = document.getElementById("compressBtn");
-const result = document.getElementById("result");
+    const input = document.getElementById("imageInput");
+    const result = document.getElementById("result");
 
-let selectedFile = null;
-
-imageInput.addEventListener("change", function () {
-
-    const file = this.files[0];
-
-    if (!file) {
-        selectedFile = null;
-        preview.innerHTML = "";
-        result.innerHTML = "";
+    if(!input.files.length){
+        result.innerHTML = "<p>Please select an image first.</p>";
         return;
     }
 
-    selectedFile = file;
-
-    const imageURL = URL.createObjectURL(file);
-
-    preview.innerHTML =
-        '<img src="' +
-        imageURL +
-        '" alt="Selected image">';
-
-    result.innerHTML = "";
-
-});
-
-
-compressBtn.addEventListener("click", function () {
-
-    if (!selectedFile) {
-
-        alert("Please select an image first.");
-
-        return;
-    }
-
-    compressBtn.disabled = true;
-    compressBtn.textContent = "Compressing...";
-
+    const file = input.files[0];
     const reader = new FileReader();
 
-    reader.onload = function (event) {
+    reader.onload = function(e){
 
         const img = new Image();
 
-        img.onload = function () {
+        img.onload = function(){
 
             const canvas = document.createElement("canvas");
-
-            let width = img.naturalWidth;
-            let height = img.naturalHeight;
-
-            const maxWidth = 1600;
-
-            if (width > maxWidth) {
-
-                height = Math.round(
-                    height * maxWidth / width
-                );
-
-                width = maxWidth;
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-
             const ctx = canvas.getContext("2d");
 
-            ctx.drawImage(
-                img,
-                0,
-                0,
-                width,
-                height
-            );
+            canvas.width = img.width;
+            canvas.height = img.height;
 
-            canvas.toBlob(function (blob) {
+            ctx.drawImage(img,0,0);
 
-                compressBtn.disabled = false;
-                compressBtn.textContent = "Compress Image";
+            canvas.toBlob(function(blob){
 
-                if (!blob) {
+                const url = URL.createObjectURL(blob);
 
-                    alert("Compression failed.");
+                const originalKB = (file.size / 1024).toFixed(1);
+                const compressedKB = (blob.size / 1024).toFixed(1);
 
-                    return;
-                }
+                result.innerHTML = `
+                    <p><strong>Original:</strong> ${originalKB} KB</p>
+                    <p><strong>Compressed:</strong> ${compressedKB} KB</p>
+                    <a class="button download" href="${url}" download="compressed-image.jpg">
+                        Download Compressed Image
+                    </a>
+                `;
 
-                const downloadURL =
-                    URL.createObjectURL(blob);
-
-                const originalSize =
-                    (selectedFile.size / 1024).toFixed(1);
-
-                const newSize =
-                    (blob.size / 1024).toFixed(1);
-
-                result.innerHTML =
-                    "<strong>Image compressed successfully!</strong><br>" +
-                    "Original size: " +
-                    originalSize +
-                    " KB<br>" +
-                    "New size: " +
-                    newSize +
-                    " KB<br>" +
-                    '<a class="download" href="' +
-                    downloadURL +
-                    '" download="compressed-image.jpg">' +
-                    "Download Compressed Image" +
-                    "</a>";
-
-            }, "image/jpeg", 0.75);
+            },"image/jpeg",0.7);
 
         };
 
-        img.onerror = function () {
-
-            compressBtn.disabled = false;
-            compressBtn.textContent = "Compress Image";
-
-            alert("Could not read the image.");
-
-        };
-
-        img.src = event.target.result;
-
+        img.src = e.target.result;
     };
 
-    reader.readAsDataURL(selectedFile);
-
-});
-
+    reader.readAsDataURL(file);
+}
 </script>
 
 </body>

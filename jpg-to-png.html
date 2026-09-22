@@ -1,378 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Free Image Tools - Compress, Resize & Convert Images Online</title>
+  <meta name="description" content="Free JPG to PNG converter. Convert JPG and JPEG images to PNG online quickly and easily. No software or account required.">
 
-<meta name="description" content="Free online image tools to compress, resize and convert images. Fast, private and easy to use.">
+  <meta name="robots" content="index, follow">
 
-<style>
-* {
-    box-sizing: border-box;
-}
+  <title>JPG to PNG Converter - Free Online Image Converter</title>
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f7fa;
-    color: #222;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-header {
-    background: #111827;
-    color: white;
-    text-align: center;
-    padding: 35px 15px;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      color: #222;
+      line-height: 1.7;
+    }
 
-header h1 {
-    margin: 0 0 10px;
-    font-size: 32px;
-}
-
-header p {
-    margin: 0;
-    color: #d1d5db;
-}
-
-.container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 20px;
-}
-
-.ad {
-    background: white;
-    border: 1px solid #e5e7eb;
-    min-height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #9ca3af;
-    margin-bottom: 25px;
-}
-
-.tools {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
-
-.tool-card {
-    background: white;
-    padding: 25px 18px;
-    border-radius: 14px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-    text-align: center;
-}
-
-.tool-card h2 {
-    font-size: 20px;
-    margin-top: 0;
-}
-
-.tool-card p {
-    color: #6b7280;
-    line-height: 1.5;
-}
-
-.tool-link {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 12px 18px;
-    background: #2563eb;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-}
-
-.compressor {
-    background: white;
-    padding: 25px;
-    margin-top: 25px;
-    border-radius: 14px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-}
-
-.upload-box {
-    border: 2px dashed #9ca3af;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-}
-
-input[type="file"] {
-    width: 100%;
-    font-size: 16px;
-}
-
-button {
-    width: 100%;
-    margin-top: 20px;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    background: #2563eb;
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #1d4ed8;
-}
-
-.preview {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.preview img {
-    max-width: 100%;
-    max-height: 350px;
-    border-radius: 10px;
-}
-
-.result {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.download {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 13px 20px;
-    background: #16a34a;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-}
-
-.info {
-    margin-top: 30px;
-    background: white;
-    padding: 25px;
-    border-radius: 14px;
-    line-height: 1.7;
-    color: #4b5563;
-}
-
-footer {
-    text-align: center;
-    padding: 35px 15px;
-    color: #6b7280;
-}
-
-footer a {
-    color: #2563eb;
-    text-decoration: none;
-    margin: 0 8px;
-}
-
-@media (max-width: 700px) {
-    .tools {
-        grid-template-columns: 1fr;
+    header {
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
     }
 
     header h1 {
-        font-size: 26px;
+      margin: 0 0 10px;
+      font-size: 34px;
     }
-}
-</style>
+
+    header p {
+      margin: 0;
+      color: #d1d5db;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    .tool-box,
+    .content-box {
+      background: white;
+      padding: 28px;
+      margin-bottom: 25px;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .tool-box {
+      text-align: center;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      max-width: 500px;
+      padding: 12px;
+      margin: 15px 0;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 16px;
+      background: white;
+    }
+
+    button {
+      background: #111827;
+      color: white;
+      border: 0;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    #download {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 20px;
+      background: #16a34a;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #111827;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .content-box h2 {
+      margin-top: 0;
+    }
+
+    .content-box a {
+      color: #2563eb;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    footer {
+      background: #111827;
+      color: #d1d5db;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+      margin: 0 7px;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 28px;
+      }
+
+      .tool-box,
+      .content-box {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-    <h1>Free Image Tools</h1>
-    <p>Compress, resize and convert your images online for free</p>
+  <h1>JPG to PNG Converter</h1>
+  <p>Convert JPG and JPEG images to PNG format online for free.</p>
 </header>
 
-<div class="container">
 
-    <div class="ad">
-        Advertisement
-    </div>
+<main class="container">
 
-    <div class="tools">
+  <a class="back" href="index.html">← Back to Free Image Tools</a>
 
-        <div class="tool-card">
-            <h2>Image Compressor</h2>
-            <p>Compress your images and reduce file size quickly.</p>
-            <a class="tool-link" href="#compressor">
-                Use Tool
-            </a>
-        </div>
 
-        <div class="tool-card">
-            <h2>Image Resizer</h2>
-            <p>Resize JPG, PNG and WebP images to any dimensions.</p>
-            <a class="tool-link" href="resize-image.html">
-                Open Resizer
-            </a>
-        </div>
-
-        <div class="tool-card">
-            <h2>JPG to PNG</h2>
-            <p>Convert JPG and JPEG images to PNG format for free.</p>
-            <a class="tool-link" href="jpg-to-png.html">
-                Open Converter
-            </a>
-        </div>
-
-    </div>
-
-    <div class="compressor" id="compressor">
-
-        <h2>Free Image Compressor</h2>
-
-        <div class="upload-box">
-            <input
-                type="file"
-                id="imageInput"
-                accept="image/jpeg,image/png,image/webp"
-            >
-        </div>
-
-        <div class="preview" id="preview"></div>
-
-        <button id="compressBtn">
-            Compress Image
-        </button>
-
-        <div class="result" id="result"></div>
-
-    </div>
-
-    <div class="ad">
-        Advertisement
-    </div>
-
-    <div class="info">
-
-        <h2>Free Online Image Tools</h2>
-
-        <p>
-            Free Image Tools provides simple online tools for working with
-            images. Compress, resize and convert your images directly in
-            your browser.
-        </p>
-
-        <p>
-            Your images are processed directly on your device and are not
-            uploaded to our servers.
-        </p>
-
-    </div>
-
-</div>
-
-<footer>
-
-    <p>© 2026 Free Image Tools</p>
-
-    <a href="index.html">Home</a>
-    <a href="resize-image.html">Resizer</a>
-    <a href="jpg-to-png.html">JPG to PNG</a>
-    <a href="about.html">About</a>
-    <a href="privacy.html">Privacy</a>
-    <a href="contact.html">Contact</a>
-
-</footer>
-
-<script>
-
-const imageInput = document.getElementById("imageInput");
-const preview = document.getElementById("preview");
-const compressBtn = document.getElementById("compressBtn");
-const result = document.getElementById("result");
-
-let selectedFile = null;
-
-imageInput.addEventListener("change", function () {
-
-    selectedFile = imageInput.files[0];
-
-    if (!selectedFile) return;
-
-    const url = URL.createObjectURL(selectedFile);
-
-    preview.innerHTML =
-        '<img src="' + url + '" alt="Image preview">';
-
-    result.innerHTML = "";
-
-});
-
-compressBtn.addEventListener("click", function () {
-
-    if (!selectedFile) {
-        alert("Please select an image first.");
-        return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = function (event) {
-
-        const img = new Image();
-
-        img.onload = function () {
-
-            const canvas = document.createElement("canvas");
-
-            const maxWidth = 1600;
-
-            let width = img.width;
-            let height = img.height;
-
-            if (width > maxWidth) {
-                height = Math.round(height * maxWidth / width);
-                width = maxWidth;
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-
-            const ctx = canvas.getContext("2d");
-
-            ctx.drawImage(img, 0, 0, width, height);
-
-            canvas.toBlob(function (blob) {
-
-                if (!blob) {
-                    alert("Compression failed.");
-                    return;
-                }
-
-                const downloadURL = URL.createObjectURL(blob);
-
-                result.innerHTML =
-                    '<strong>Image compressed successfully!</strong><br>' +
-                    '<a class="download" href="' +
-                    downloadURL +
-                    '" download="compressed-image.jpg">' +
-                    'Download Compressed Image' +
-                    '</a>';
-
-            }, "image/jpeg", 0.75);
-
-        };
-
-        img.src = event.target.result;
-
-    };
-
-    reader.readAsDataURL(selectedFile);
-
-});
-
-</script>
-
-</body>
-</html>
+  <div class="tool-box">

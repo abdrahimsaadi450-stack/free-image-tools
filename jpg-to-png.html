@@ -4,11 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="description" content="Free JPG to PNG converter. Convert JPG and JPEG images to PNG online quickly and easily.">
-
+  <meta name="description" content="Convert JPG images to PNG online for free. Fast browser-based JPG to PNG converter with no upload required.">
   <meta name="robots" content="index, follow">
 
-  <title>JPG to PNG Converter - Free Online Image Converter</title>
+  <title>JPG to PNG Converter - Free Online</title>
 
   <style>
     * {
@@ -78,7 +77,11 @@
       border-radius: 8px;
       font-size: 16px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      opacity: 0.9;
     }
 
     #download {
@@ -90,6 +93,15 @@
       text-decoration: none;
       border-radius: 8px;
       font-weight: bold;
+    }
+
+    #preview {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 20px auto;
+      border: 1px solid #ddd;
+      border-radius: 8px;
     }
 
     .back {
@@ -140,7 +152,7 @@
 
 <header>
   <h1>JPG to PNG Converter</h1>
-  <p>Convert JPG and JPEG images to PNG format for free.</p>
+  <p>Convert JPG images to PNG format online for free.</p>
 </header>
 
 <main class="container">
@@ -151,13 +163,9 @@
 
     <h2>Convert JPG to PNG</h2>
 
-    <p>Select a JPG or JPEG image and convert it to PNG.</p>
+    <p>Select a JPG image and convert it to PNG.</p>
 
-    <input
-      type="file"
-      id="imageInput"
-      accept="image/jpeg,.jpg,.jpeg"
-    >
+    <input type="file" id="fileInput" accept=".jpg,.jpeg,image/jpeg">
 
     <br>
 
@@ -171,17 +179,16 @@
 
   <div class="content-box">
 
-    <h2>What Is JPG to PNG Conversion?</h2>
+    <h2>Free JPG to PNG Converter</h2>
 
     <p>
-      JPG to PNG conversion changes an image from JPG or JPEG format
-      into PNG format. PNG is useful when you need a lossless image
-      format for graphics, designs, and digital projects.
+      Convert JPG and JPEG images to PNG format quickly and easily with this
+      free online JPG to PNG converter.
     </p>
 
     <p>
-      This free converter works directly in your web browser.
-      No software installation or account is required.
+      The conversion happens directly in your browser, so your image does not
+      need to be uploaded to an external server.
     </p>
 
   </div>
@@ -191,9 +198,10 @@
     <h2>How to Convert JPG to PNG</h2>
 
     <ol>
-      <li>Select a JPG or JPEG image.</li>
-      <li>Click the "Convert to PNG" button.</li>
+      <li>Select a JPG or JPEG image from your device.</li>
+      <li>Click "Convert to PNG".</li>
       <li>Wait for the conversion to finish.</li>
+      <li>Preview the converted image.</li>
       <li>Click "Download PNG Image".</li>
     </ol>
 
@@ -204,29 +212,28 @@
     <h2>Frequently Asked Questions</h2>
 
     <h3>Is this JPG to PNG converter free?</h3>
+
     <p>
       Yes. The converter is free to use.
     </p>
 
-    <h3>Can I convert JPEG files?</h3>
-    <p>
-      Yes. Both JPG and JPEG files are supported.
-    </p>
-
     <h3>Do I need to install software?</h3>
+
     <p>
-      No. The conversion works directly in your browser.
+      No. The conversion works directly in your web browser.
     </p>
 
     <h3>Are my images uploaded?</h3>
+
     <p>
-      No. The conversion is performed directly in your browser.
+      No. The image is processed directly in your browser.
     </p>
 
-    <h3>Does JPG to PNG remove the background?</h3>
+    <h3>Does PNG improve the original JPG quality?</h3>
+
     <p>
-      No. Converting an image to PNG does not automatically remove
-      its background.
+      Converting JPG to PNG does not restore image quality that was already
+      lost in the original JPG file.
     </p>
 
   </div>
@@ -266,65 +273,85 @@
 
 <script>
 
-  const imageInput = document.getElementById("imageInput");
-  const convertButton = document.getElementById("convertButton");
-  const result = document.getElementById("result");
+const fileInput = document.getElementById("fileInput");
+const convertButton = document.getElementById("convertButton");
+const result = document.getElementById("result");
 
-  convertButton.addEventListener("click", function() {
+convertButton.addEventListener("click", function() {
 
-    const file = imageInput.files[0];
+  const file = fileInput.files[0];
 
-    if (!file) {
-      result.innerHTML =
-        "<p>Please select a JPG or JPEG image first.</p>";
-      return;
-    }
+  if (!file) {
+    result.innerHTML = "<p>Please select a JPG image first.</p>";
+    return;
+  }
 
-    result.innerHTML =
-      "<p>Converting image...</p>";
+  result.innerHTML = "<p>Converting image...</p>";
 
-    const reader = new FileReader();
+  const reader = new FileReader();
 
-    reader.onload = function(event) {
+  reader.onload = function(event) {
 
-      const image = new Image();
+    const image = new Image();
 
-      image.onload = function() {
+    image.onload = function() {
 
-        const canvas = document.createElement("canvas");
+      const canvas = document.createElement("canvas");
 
-        canvas.width = image.width;
-        canvas.height = image.height;
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
 
-        const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext("2d");
 
-        if (!ctx) {
+      if (!ctx) {
+        result.innerHTML =
+          "<p>Your browser does not support image conversion.</p>";
+        return;
+      }
+
+      ctx.drawImage(image, 0, 0);
+
+      canvas.toBlob(function(blob) {
+
+        if (!blob) {
           result.innerHTML =
-            "<p>Your browser does not support image conversion.</p>";
+            "<p>Conversion failed. Please try another JPG image.</p>";
           return;
         }
 
-        ctx.drawImage(
-          image,
-          0,
-          0,
-          image.width,
-          image.height
-        );
+        const url = URL.createObjectURL(blob);
 
-        canvas.toBlob(function(blob) {
+        result.innerHTML =
+          "<p><strong>Conversion complete!</strong></p>" +
+          "<p>Your JPG image has been converted to PNG.</p>" +
+          '<img id="preview" src="' + url + '" alt="Converted PNG image preview">' +
+          '<a id="download" href="' + url + '" download="converted-image.png">' +
+          "Download PNG Image" +
+          "</a>";
 
-          if (!blob) {
-            result.innerHTML =
-              "<p>Conversion failed. Please try again.</p>";
-            return;
-          }
+      }, "image/png");
 
-          const url = URL.createObjectURL(blob);
+    };
 
-          result.innerHTML =
-            "<p><strong>Conversion complete!</strong></p>" +
+    image.onerror = function() {
+      result.innerHTML =
+        "<p>Unable to open this JPG image. Please try another file.</p>";
+    };
 
-            "<p>New PNG size: " +
-            image.width +
-            " × "
+    image.src = event.target.result;
+
+  };
+
+  reader.onerror = function() {
+    result.innerHTML =
+      "<p>Could not read the selected image. Please try again.</p>";
+  };
+
+  reader.readAsDataURL(file);
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Image Compressor - Compress Images Online Free</title>
+
+<meta name="description" content="Compress JPG, PNG and other images online for free. Reduce image file size quickly while keeping good quality.">
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    margin:0;
+    background:#f5f7fa;
+    color:#222;
+}
+
+header{
+    background:#111827;
+    color:white;
+    text-align:center;
+    padding:40px 15px;
+}
+
+header h1{
+    margin:0 0 12px;
+    font-size:32px;
+}
+
+header p{
+    margin:0;
+    color:#d1d5db;
+}
+
+.container{
+    max-width:800px;
+    margin:35px auto;
+    padding:0 15px;
+}
+
+.tool{
+    background:white;
+    padding:30px 20px;
+    border-radius:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    text-align:center;
+}
+
+input[type="file"]{
+    margin:20px 0;
+    max-width:100%;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:0;
+    padding:12px 22px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+#result{
+    margin-top:25px;
+}
+
+.download{
+    display:inline-block;
+    margin-top:12px;
+    background:#16a34a;
+    color:white;
+    padding:12px 20px;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+.info{
+    margin-top:25px;
+    color:#666;
+    line-height:1.6;
+    font-size:14px;
+}
+
+footer{
+    text-align:center;
+    padding:35px 15px;
+    color:#666;
+    line-height:2;
+}
+
+footer a{
+    color:#2563eb;
+    text-decoration:none;
+    margin:0 6px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Image Compressor</h1>
+    <p>Compress your images online for free.</p>
+</header>
+
+<div class="container">
+
+<div class="tool">
+
+    <h2>Free Image Compressor</h2>
+
+    <p>Select an image to reduce its file size.</p>
+
+    <input type="file" id="imageInput" accept="image/*">
+
+    <br>
+
+    <button onclick="compressImage()">
+        Compress Image
+    </button>
+
+    <div id="result"></div>
+
+    <div class="info">
+        Your image is processed directly in your browser.
+        No image is uploaded to a server.
+    </div>
+
+</div>
+
+</div>
+
+<footer>
+
+    <a href="index.html">Home</a>
+    <a href="compress-image.html">Image Compressor</a>
+    <a href="resize-image.html">Image Resizer</a>
+    <a href="jpg-to-png.html">JPG to PNG</a>
+    <a href="png-to-jpg.html">PNG to JPG</a>
+    <a href="remove-background.html">Remove Background</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="contact.html">Contact</a>
+
+</footer>
+
+<script>
+
+function compressImage(){
+
+    const input =
+        document.getElementById("imageInput");
+
+    const result =
+        document.getElementById("result");
+
+    if(!input.files.length){
+
+        result.innerHTML =
+            "<p>Please select an image first.</p>";
+
+        return;
+    }
+
+    const file = input.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        const img = new Image();
+
+        img.onload = function(){
+
+            const canvas =
+                document.createElement("canvas");
+
+            const ctx =
+                canvas.getContext("2d");
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            ctx.drawImage(
+                img,
+                0,
+                0
+            );
+
+            canvas.toBlob(
+                function(blob){
+
+                    if(!blob){
+                        result.innerHTML =
+                            "<p>Compression failed. Please try another image.</p>";
+                        return;
+                    }
+
+                    const url =
+                        URL.createObjectURL(blob);
+
+                    const originalKB =
+                        (file.size / 1024).toFixed(1);
+
+                    const compressedKB =
+                        (blob.size / 1024).toFixed(1);
+
+                    const saved =
+                        ((1 - blob.size / file.size) * 100).toFixed(1);
+
+                    result.innerHTML = `
+
+                        <p>
+                            <strong>Original size:</strong>
+                            ${originalKB} KB
+                        </p>
+
+                        <p>
+                            <strong>Compressed size:</strong>
+                            ${compressedKB} KB
+                        </p>
+
+                        <p>
+                            <strong>Size reduction:</strong>
+                            ${saved}%
+                        </p>
+
+                        <a
+                            class="download"
+                            href="${url}"
+                            download="compressed-image.jpg">
+
+                            Download Compressed Image
+
+                        </a>
+                    `;
+
+                },
+                "image/jpeg",
+                0.7
+            );
+
+        };
+
+        img.onerror = function(){
+
+            result.innerHTML =
+                "<p>Unable to read this image.</p>";
+
+        };
+
+        img.src = e.target.result;
+
+    };
+
+    reader.readAsDataURL(file);
+}
+
+</script>
+
+</body>
+</html>

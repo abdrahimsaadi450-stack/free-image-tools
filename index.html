@@ -1,210 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
 
-<title>Free Image Tools - Compress, Resize & Convert Images</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="Free online image tools to compress, resize and convert JPG and PNG images. Remove image backgrounds quickly and easily.">
+  <meta name="google-site-verification" content="5RUVhryoPf6YKgtrr-XhZeVcNX3KeKqiJjg7vNvL4lg">
 
-<style>
-body{
-    font-family:Arial,sans-serif;
-    margin:0;
-    background:#f5f7fa;
-    color:#222;
-}
+  <meta name="description" content="Free online image tools to compress, resize and convert images. Simple, fast and easy to use.">
 
-header{
-    background:#111827;
-    color:white;
-    text-align:center;
-    padding:45px 15px;
-}
+  <meta name="robots" content="index, follow">
 
-header h1{
-    margin:0 0 12px;
-    font-size:34px;
-}
+  <title>Free Image Tools - Compress, Resize & Convert Images</title>
 
-header p{
-    margin:0;
-    color:#d1d5db;
-    font-size:17px;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.container{
-    max-width:1050px;
-    margin:40px auto;
-    padding:0 15px;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      color: #222;
+      line-height: 1.6;
+    }
 
-.tools{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-    gap:20px;
-}
+    header {
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 45px 20px;
+    }
 
-.card{
-    background:white;
-    padding:28px 20px;
-    border-radius:12px;
-    box-shadow:0 3px 12px rgba(0,0,0,.08);
-    text-align:center;
-    transition:transform .2s;
-}
+    header h1 {
+      margin: 0 0 10px;
+      font-size: 36px;
+    }
 
-.card:hover{
-    transform:translateY(-3px);
-}
+    header p {
+      margin: 0;
+      font-size: 18px;
+      color: #d1d5db;
+    }
 
-.card h2{
-    font-size:20px;
-    margin:0 0 12px;
-}
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 40px 20px;
+    }
 
-.card p{
-    color:#666;
-    line-height:1.5;
-    min-height:48px;
-}
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+    }
 
-.button{
-    display:inline-block;
-    background:#2563eb;
-    color:white;
-    padding:12px 20px;
-    border-radius:8px;
-    text-decoration:none;
-    font-size:15px;
-}
+    .tool-card {
+      background: white;
+      padding: 25px;
+      border-radius: 14px;
+      text-decoration: none;
+      color: #222;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
 
-.button:hover{
-    background:#1d4ed8;
-}
+    .tool-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+    }
 
-.about-section{
-    background:white;
-    margin-top:35px;
-    padding:30px 25px;
-    border-radius:12px;
-    box-shadow:0 3px 12px rgba(0,0,0,.08);
-}
+    .tool-card h2 {
+      margin-top: 0;
+      font-size: 21px;
+    }
 
-.about-section h2{
-    margin-top:0;
-}
+    .tool-card p {
+      color: #666;
+      margin-bottom: 0;
+    }
 
-.about-section p{
-    color:#555;
-    line-height:1.7;
-}
+    .about {
+      background: white;
+      margin-top: 45px;
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    }
 
-footer{
-    text-align:center;
-    padding:35px 15px;
-    color:#666;
-    line-height:2;
-}
+    .about h2 {
+      margin-top: 0;
+    }
 
-footer a{
-    color:#2563eb;
-    text-decoration:none;
-    margin:0 6px;
-}
+    footer {
+      margin-top: 50px;
+      background: #111827;
+      color: #d1d5db;
+      text-align: center;
+      padding: 30px 20px;
+    }
 
-footer a:hover{
-    text-decoration:underline;
-}
-</style>
+    footer a {
+      color: white;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 29px;
+      }
+
+      header p {
+        font-size: 16px;
+      }
+
+      .container {
+        padding: 25px 15px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
+  <header>
     <h1>Free Image Tools</h1>
     <p>Simple, fast and free online tools for your images.</p>
-</header>
+  </header>
 
-<div class="container">
+  <main class="container">
 
-    <div class="tools">
+    <section class="tools">
 
-        <div class="card">
-            <h2>Image Compressor</h2>
-            <p>Reduce image file size while maintaining good quality.</p>
-            <a class="button" href="compress-image.html">
-                Open Tool
-            </a>
-        </div>
+      <a class="tool-card" href="compress-image.html">
+        <h2>Image Compressor</h2>
+        <p>Compress images and reduce file size quickly and easily.</p>
+      </a>
 
-        <div class="card">
-            <h2>Image Resizer</h2>
-            <p>Resize images to your preferred width and height.</p>
-            <a class="button" href="resize-image.html">
-                Open Tool
-            </a>
-        </div>
+      <a class="tool-card" href="resize-image.html">
+        <h2>Image Resizer</h2>
+        <p>Resize your images to the exact width and height you need.</p>
+      </a>
 
-        <div class="card">
-            <h2>JPG to PNG</h2>
-            <p>Convert JPG and JPEG images to PNG format.</p>
-            <a class="button" href="jpg-to-png.html">
-                Open Tool
-            </a>
-        </div>
+      <a class="tool-card" href="jpg-to-png.html">
+        <h2>JPG to PNG</h2>
+        <p>Convert JPG images to PNG format directly in your browser.</p>
+      </a>
 
-        <div class="card">
-            <h2>PNG to JPG</h2>
-            <p>Convert PNG images to JPG format quickly and easily.</p>
-            <a class="button" href="png-to-jpg.html">
-                Open Tool
-            </a>
-        </div>
+      <a class="tool-card" href="png-to-jpg.html">
+        <h2>PNG to JPG</h2>
+        <p>Convert PNG images to JPG format quickly and easily.</p>
+      </a>
 
-        <div class="card">
-            <h2>Remove Background</h2>
-            <p>Remove simple image backgrounds and create transparent PNGs.</p>
-            <a class="button" href="remove-background.html">
-                Open Tool
-            </a>
-        </div>
+      <a class="tool-card" href="remove-background.html">
+        <h2>Remove Background</h2>
+        <p>Remove simple image backgrounds and create transparent PNG images.</p>
+      </a>
 
-    </div>
+    </section>
 
-    <div class="about-section">
+    <section class="about">
+      <h2>Free Online Image Tools</h2>
 
-        <h2>Free Online Image Tools</h2>
+      <p>
+        Free Image Tools provides simple and useful online tools for working
+        with images. You can compress, resize and convert images without
+        installing software.
+      </p>
 
-        <p>
-            Free Image Tools provides simple online tools for working with
-            images. Compress, resize and convert your images directly from
-            your browser without complicated software.
-        </p>
+      <p>
+        Our tools are designed to be fast, easy to use and accessible from
+        computers, tablets and mobile devices.
+      </p>
+    </section>
 
-        <p>
-            Our tools are designed to be easy to use on both mobile devices
-            and computers.
-        </p>
+  </main>
 
-    </div>
+  <footer>
 
-</div>
+    <p>
+      <a href="compress-image.html">Image Compressor</a>
+      <a href="resize-image.html">Image Resizer</a>
+      <a href="jpg-to-png.html">JPG to PNG</a>
+      <a href="png-to-jpg.html">PNG to JPG</a>
+      <a href="remove-background.html">Remove Background</a>
+    </p>
 
-<footer>
+    <p>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="contact.html">Contact</a>
+    </p>
 
-    <a href="index.html">Home</a>
-    <a href="compress-image.html">Image Compressor</a>
-    <a href="resize-image.html">Image Resizer</a>
-    <a href="jpg-to-png.html">JPG to PNG</a>
-    <a href="png-to-jpg.html">PNG to JPG</a>
-    <a href="remove-background.html">Remove Background</a>
-    <a href="about.html">About</a>
-    <a href="privacy.html">Privacy</a>
-    <a href="contact.html">Contact</a>
+    <p>© 2026 Free Image Tools. All rights reserved.</p>
 
-</footer>
+  </footer>
 
 </body>
 </html>

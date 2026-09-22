@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="description" content="Free JPG to PNG converter. Convert JPG and JPEG images to PNG online quickly and easily. No software or account required.">
+  <meta name="description" content="Free JPG to PNG converter. Convert JPG and JPEG images to PNG online quickly and easily.">
 
   <meta name="robots" content="index, follow">
 
@@ -52,7 +52,7 @@
       padding: 28px;
       margin-bottom: 25px;
       border-radius: 14px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
 
     .tool-box {
@@ -79,10 +79,6 @@
       font-size: 16px;
       cursor: pointer;
       margin-top: 10px;
-    }
-
-    button:hover {
-      opacity: 0.9;
     }
 
     #download {
@@ -144,13 +140,191 @@
 
 <header>
   <h1>JPG to PNG Converter</h1>
-  <p>Convert JPG and JPEG images to PNG format online for free.</p>
+  <p>Convert JPG and JPEG images to PNG format for free.</p>
 </header>
-
 
 <main class="container">
 
   <a class="back" href="index.html">← Back to Free Image Tools</a>
 
-
   <div class="tool-box">
+
+    <h2>Convert JPG to PNG</h2>
+
+    <p>Select a JPG or JPEG image and convert it to PNG.</p>
+
+    <input
+      type="file"
+      id="imageInput"
+      accept="image/jpeg,.jpg,.jpeg"
+    >
+
+    <br>
+
+    <button type="button" id="convertButton">
+      Convert to PNG
+    </button>
+
+    <div id="result"></div>
+
+  </div>
+
+  <div class="content-box">
+
+    <h2>What Is JPG to PNG Conversion?</h2>
+
+    <p>
+      JPG to PNG conversion changes an image from JPG or JPEG format
+      into PNG format. PNG is useful when you need a lossless image
+      format for graphics, designs, and digital projects.
+    </p>
+
+    <p>
+      This free converter works directly in your web browser.
+      No software installation or account is required.
+    </p>
+
+  </div>
+
+  <div class="content-box">
+
+    <h2>How to Convert JPG to PNG</h2>
+
+    <ol>
+      <li>Select a JPG or JPEG image.</li>
+      <li>Click the "Convert to PNG" button.</li>
+      <li>Wait for the conversion to finish.</li>
+      <li>Click "Download PNG Image".</li>
+    </ol>
+
+  </div>
+
+  <div class="content-box">
+
+    <h2>Frequently Asked Questions</h2>
+
+    <h3>Is this JPG to PNG converter free?</h3>
+    <p>
+      Yes. The converter is free to use.
+    </p>
+
+    <h3>Can I convert JPEG files?</h3>
+    <p>
+      Yes. Both JPG and JPEG files are supported.
+    </p>
+
+    <h3>Do I need to install software?</h3>
+    <p>
+      No. The conversion works directly in your browser.
+    </p>
+
+    <h3>Are my images uploaded?</h3>
+    <p>
+      No. The conversion is performed directly in your browser.
+    </p>
+
+    <h3>Does JPG to PNG remove the background?</h3>
+    <p>
+      No. Converting an image to PNG does not automatically remove
+      its background.
+    </p>
+
+  </div>
+
+  <div class="content-box">
+
+    <h2>More Free Image Tools</h2>
+
+    <p>
+      <a href="compress-image.html">Image Compressor</a>
+      &nbsp;|&nbsp;
+      <a href="resize-image.html">Image Resizer</a>
+      &nbsp;|&nbsp;
+      <a href="png-to-jpg.html">PNG to JPG</a>
+      &nbsp;|&nbsp;
+      <a href="remove-background.html">Remove Background</a>
+    </p>
+
+  </div>
+
+</main>
+
+<footer>
+
+  <p>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="contact.html">Contact</a>
+  </p>
+
+  <p>
+    © 2026 Free Image Tools. All rights reserved.
+  </p>
+
+</footer>
+
+<script>
+
+  const imageInput = document.getElementById("imageInput");
+  const convertButton = document.getElementById("convertButton");
+  const result = document.getElementById("result");
+
+  convertButton.addEventListener("click", function() {
+
+    const file = imageInput.files[0];
+
+    if (!file) {
+      result.innerHTML =
+        "<p>Please select a JPG or JPEG image first.</p>";
+      return;
+    }
+
+    result.innerHTML =
+      "<p>Converting image...</p>";
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+
+      const image = new Image();
+
+      image.onload = function() {
+
+        const canvas = document.createElement("canvas");
+
+        canvas.width = image.width;
+        canvas.height = image.height;
+
+        const ctx = canvas.getContext("2d");
+
+        if (!ctx) {
+          result.innerHTML =
+            "<p>Your browser does not support image conversion.</p>";
+          return;
+        }
+
+        ctx.drawImage(
+          image,
+          0,
+          0,
+          image.width,
+          image.height
+        );
+
+        canvas.toBlob(function(blob) {
+
+          if (!blob) {
+            result.innerHTML =
+              "<p>Conversion failed. Please try again.</p>";
+            return;
+          }
+
+          const url = URL.createObjectURL(blob);
+
+          result.innerHTML =
+            "<p><strong>Conversion complete!</strong></p>" +
+
+            "<p>New PNG size: " +
+            image.width +
+            " × "

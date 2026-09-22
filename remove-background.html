@@ -178,23 +178,43 @@
       <span>JPG, JPEG or PNG — up to 25 MB</span>
     </label>
 
-    <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp">
+    <input
+      id="fileInput"
+      type="file"
+      accept="image/jpeg,image/png,image/webp"
+    >
 
-    <img id="preview" alt="Image preview">
+    <img
+      id="preview"
+      alt="Image preview"
+    >
 
-    <button id="removeBtn" disabled>
+    <button
+      id="removeBtn"
+      disabled
+    >
       Remove Background
     </button>
 
-    <div class="progress-box" id="progressBox">
-      <progress id="progress" value="0" max="100"></progress>
+    <div
+      class="progress-box"
+      id="progressBox"
+    >
+      <progress
+        id="progress"
+        value="0"
+        max="100"
+      ></progress>
     </div>
 
     <div id="status">
       Choose an image to begin.
     </div>
 
-    <a id="download" download="background-removed.png">
+    <a
+      id="download"
+      download="background-removed.png"
+    >
       Download Transparent PNG
     </a>
 
@@ -246,33 +266,28 @@
 
 <script type="module">
 
-import { pipeline, env } from
-"https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.0";
+import {
+  pipeline,
+  env
+} from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.0";
 
-const MODEL_ID = "onnx-community/ormbg-ONNX";
+
+const MODEL_ID =
+  "onnx-community/ormbg-ONNX";
+
+
+/* ---------------------------------
+   Transformers.js configuration
+---------------------------------- */
 
 env.allowLocalModels = false;
 env.allowRemoteModels = true;
 env.useBrowserCache = true;
 
 
-/*
-  Use multiple CPU threads when available.
-  Maximum of 4 keeps the phone responsive.
-*/
-if (
-  env.backends &&
-  env.backends.onnx &&
-  env.backends.onnx.wasm
-) {
-
-  const cores =
-    navigator.hardwareConcurrency || 2;
-
-  env.backends.onnx.wasm.numThreads =
-    Math.min(Math.max(2, cores - 1), 4);
-}
-
+/* ---------------------------------
+   Page elements
+---------------------------------- */
 
 const fileInput =
   document.getElementById("fileInput");
@@ -296,47 +311,204 @@ const progress =
   document.getElementById("progress");
 
 
+/* ---------------------------------
+   Application state
+---------------------------------- */
+
 let selectedFile = null;
+
 let segmenter = null;
+
 let modelPromise = null;
-let resultBlob = null;
+
+let resultURL = null;
+
+let currentEngine = null;
 
 
-fileInput.addEventListener("change", () => {
+/* ---------------------------------
+   Detect WebGPU safely
+---------------------------------- */
 
-  const file =
-    fileInput.files[0];
+function webGPUAvailable() {
 
-  if (!file) return;
+  return (
+    typeof navigator !== "undefined" &&
+    "gpu" in navigator
+  );
+}
 
 
-  if (file.size > 25 * 1024 * 1024) {
+/* ---------------------------------
+   CPU configuration
+---------------------------------- */
 
-    status.textContent =
-      "This image is larger than 25 MB. Please choose a smaller image.";
+function configureWasm() {
 
-    removeBtn.disabled = true;
+  if (
+    env.backends &&
+    env.backends.onnx &&
+    env.backends.onnx.wasm
+  ) {
 
-    return;
+    const cores =
+      navigator.hardwareConcurrency || 2;
+
+    /*
+      Use up to 4 threads.
+      This is limited to avoid freezing
+      weaker phones.
+    */
+
+    env.backends.onnx.wasm.numThreads =
+      Math.min(
+        Math.max(2, cores - 1),
+        4
+      );
+  }
+}
+
+
+/* ---------------------------------
+   Progress helper
+---------------------------------- */
+
+function updateProgress(data) {
+
+  if (
+    data &&
+    data.progress != null
+  ) {
+
+    const value =
+      Number(data.progress);
+
+    if (
+      value >= 0 &&
+      value <= 100
+    ) {
+
+      progress.value =
+        value;
+    }
+  }
+}
+
+
+/* ---------------------------------
+   Create AI model
+---------------------------------- */
+
+async function createModel(
+  device
+) {
+
+  progressBox.style.display =
+    "block";
+
+  progress.value =
+    5;
+
+
+  const deviceName =
+    device === "webgpu"
+      ? "GPU"
+      : "CPU";
+
+
+  status.textContent =
+    "Starting AI engine (" +
+    deviceName +
+    ")...";
+
+
+  return await pipeline(
+    "background-removal",
+    MODEL_ID,
+    {
+      device: device,
+
+      /*
+        Keep int8 because this is
+        the working ORMBG version.
+      */
+      dtype: "int8",
+
+      progress_callback:
+        (data) => {
+
+          updateProgress(data);
+
+          if (
+            data &&
+            data.status === "progress"
+          ) {
+
+            const percent =
+              Math.round(
+                data.progress || 0
+              );
+
+            status.textContent =
+              "Loading AI model... " +
+              percent +
+              "%";
+          }
+        }
+    }
+  );
+}
+
+
+/* ---------------------------------
+   Load model with GPU first
+---------------------------------- */
+
+async function loadModel() {
+
+  if (segmenter) {
+    return segmenter;
   }
 
 
-  selectedFile = file;
+  if (modelPromise) {
+    return modelPromise;
+  }
 
 
-  const imageURL =
-    URL.createObjectURL(file);
+  modelPromise =
+    (async () => {
+
+      /*
+        FIRST:
+        Try WebGPU when available.
+      */
+
+      if (webGPUAvailable()) {
+
+        try {
+
+          status.textContent =
+            "Starting GPU acceleration...";
 
 
-  preview.src =
-    imageURL;
-
-  preview.style.display =
-    "block";
-
-
-  download.style.display =
-    "none";
+          const gpuModel =
+            await createModel(
+              "webgpu"
+            );
 
 
-  remove
+          currentEngine =
+            "GPU";
+
+
+          status.textContent =
+            "GPU acceleration ready.";
+
+
+          return gpuModel;
+
+        } catch (gpuError) {
+
+          console.warn(
+            "WebGPU failed. Falling

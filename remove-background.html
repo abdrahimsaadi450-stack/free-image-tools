@@ -169,6 +169,7 @@
         linear-gradient(-45deg, transparent 75%, #eee 75%);
 
       background-size: 20px 20px;
+
       background-position:
         0 0,
         0 10px,
@@ -366,8 +367,8 @@
 
 <script type="module">
 
-  import { pipeline } from
-    "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2/+esm";
+  import { pipeline }
+    from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.0";
 
 
   const imageInput =
@@ -395,6 +396,8 @@
 
   let resultBlob = null;
 
+  let resultURL = null;
+
 
   imageInput.addEventListener("change", function () {
 
@@ -408,6 +411,11 @@
     downloadBtn.style.display = "none";
 
     resultBlob = null;
+
+    if (resultURL) {
+      URL.revokeObjectURL(resultURL);
+      resultURL = null;
+    }
 
 
     if (!selectedFile) {
@@ -423,10 +431,10 @@
       selectedFile.size / (1024 * 1024);
 
 
-    if (sizeMB > 15) {
+    if (sizeMB > 12) {
 
       status.textContent =
-        "Large image detected. Processing may take longer on mobile.";
+        "Large image selected. Processing may take longer on mobile.";
 
     } else {
 
@@ -446,19 +454,27 @@
 
 
     status.textContent =
-      "Loading AI model for the first time... Please wait.";
+      "Loading AI model for the first time...";
 
 
-    segmenter = await pipeline(
-      "background-removal",
-      "onnx-community/BEN2-ONNX",
-      {
-        device: "wasm"
-      }
-    );
+    /*
+     * BEN2 is officially supported by
+     * Transformers.js background-removal pipeline.
+     *
+     * We intentionally do not force the device
+     * to WASM here. Transformers.js chooses
+     * the appropriate browser backend.
+     */
+
+    segmenter =
+      await pipeline(
+        "background-removal",
+        "onnx-community/BEN2-ONNX"
+      );
 
 
     return segmenter;
+
   }
 
 
@@ -482,22 +498,33 @@
       previewBox.style.display = "none";
 
 
-      let imageURL = null;
-
-
       try {
+
+        /*
+         * Prevent extremely large images from
+         * consuming too much memory on phones.
+         */
+
+        const sizeMB =
+          selectedFile.size / (1024 * 1024);
+
+
+        if (sizeMB > 20) {
+
+          throw new Error(
+            "IMAGE_TOO_LARGE"
+          );
+
+        }
+
 
         status.textContent =
           "Preparing image...";
 
 
-        imageURL =
-          URL.createObjectURL(selectedFile);
-
-
-        status.textContent =
-          "Loading AI model...";
-
+        /*
+         * Load the AI model.
+         */
 
         const model =
           await loadModel();
@@ -508,249 +535,177 @@
 
 
         /*
-         * IMPORTANT:
-         * BEN2 expects an ARRAY of images.
+         * Convert the local file into a Blob URL.
          */
 
-        const output =
-          await model([imageURL]);
-
-
-        if (!output || !output.length) {
-
-          throw new Error(
-            "The AI model returned no result."
-          );
-
-        }
-
-
-        /*
-         * BEN2 returns a RawImage mask.
-         */
-
-        const mask =
-          output[0];
-
-
-        status.textContent =
-          "Creating transparent PNG...";
-
-
-        const maskCanvas =
-          mask.toCanvas();
-
-
-        const originalBitmap =
-          await createImageBitmap(
+        const imageURL =
+          URL.createObjectURL(
             selectedFile
           );
 
 
-        const width =
-          originalBitmap.width;
+        try {
 
-        const height =
-          originalBitmap.height;
+          /*
+           * BEN2 officially accepts an image
+           * URL and returns a RawImage containing
+           * the background-removed result.
+           */
 
-
-        const canvas =
-          document.createElement("canvas");
-
-
-        canvas.width = width;
-
-        canvas.height = height;
+          const output =
+            await model(imageURL);
 
 
-        const ctx =
-          canvas.getContext("2d", {
-            willReadFrequently: true
-          });
+          if (!output || !output.length) {
+
+            throw new Error(
+              "The AI model returned no result."
+            );
+
+          }
 
 
-        /*
-         * Draw original image.
-         */
-
-        ctx.drawImage(
-          originalBitmap,
-          0,
-          0,
-          width,
-          height
-        );
+          const resultImage =
+            output[0];
 
 
-        /*
-         * Read original pixels.
-         */
-
-        const originalData =
-          ctx.getImageData(
-            0,
-            0,
-            width,
-            height
-          );
+          status.textContent =
+            "Creating transparent PNG...";
 
 
-        /*
-         * Read AI mask.
-         */
+          /*
+           * IMPORTANT:
+           *
+           * BEN2 already returns the processed
+           * transparent image.
+           *
+           * Do NOT manually apply a mask.
+           */
 
-        const maskCtx =
-          maskCanvas.getContext("2d", {
-            willReadFrequently: true
-          });
-
-
-        const maskData =
-          maskCtx.getImageData(
-            0,
-            0,
-            maskCanvas.width,
-            maskCanvas.height
-          );
+          resultBlob =
+            await resultImage.toBlob();
 
 
-        /*
-         * Convert AI mask to the
-         * original image size.
-         */
+          if (!resultBlob) {
 
-        const resizedMask =
-          document.createElement("canvas");
+            throw new Error(
+              "Could not create the PNG result."
+            );
 
-
-        resizedMask.width = width;
-
-        resizedMask.height = height;
+          }
 
 
-        const resizedCtx =
-          resizedMask.getContext("2d", {
-            willReadFrequently: true
-          });
+          /*
+           * Make sure the result is actually
+           * a PNG image.
+           */
 
+          if (
+            !resultBlob.type ||
+            !resultBlob.type.includes("png")
+          ) {
 
-        resizedCtx.drawImage(
-          maskCanvas,
-          0,
-          0,
-          width,
-          height
-        );
-
-
-        const finalMask =
-          resizedCtx.getImageData(
-            0,
-            0,
-            width,
-            height
-          );
-
-
-        const pixels =
-          originalData.data;
-
-        const alpha =
-          finalMask.data;
-
-
-        /*
-         * Apply mask.
-         *
-         * BEN2 mask is grayscale.
-         * Red channel represents the mask.
-         */
-
-        for (
-          let i = 0;
-          i < pixels.length;
-          i += 4
-        ) {
-
-          const maskValue =
-            alpha[i];
-
-
-          pixels[i + 3] =
-            maskValue;
-
-        }
-
-
-        /*
-         * Put transparent pixels
-         * back onto the canvas.
-         */
-
-        ctx.putImageData(
-          originalData,
-          0,
-          0
-        );
-
-
-        /*
-         * Convert to PNG.
-         */
-
-        resultBlob =
-          await new Promise(
-            function(resolve, reject) {
-
-              canvas.toBlob(
-                function(blob) {
-
-                  if (blob) {
-
-                    resolve(blob);
-
-                  } else {
-
-                    reject(
-                      new Error(
-                        "Could not create PNG."
-                      )
-                    );
-
-                  }
-
-                },
-                "image/png"
+            const imageBitmap =
+              await createImageBitmap(
+                resultBlob
               );
 
-            }
+
+            const canvas =
+              document.createElement("canvas");
+
+
+            canvas.width =
+              imageBitmap.width;
+
+            canvas.height =
+              imageBitmap.height;
+
+
+            const ctx =
+              canvas.getContext("2d");
+
+
+            ctx.drawImage(
+              imageBitmap,
+              0,
+              0
+            );
+
+
+            resultBlob =
+              await new Promise(
+                function(resolve, reject) {
+
+                  canvas.toBlob(
+                    function(blob) {
+
+                      if (blob) {
+
+                        resolve(blob);
+
+                      } else {
+
+                        reject(
+                          new Error(
+                            "PNG conversion failed."
+                          )
+                        );
+
+                      }
+
+                    },
+                    "image/png"
+                  );
+
+                }
+              );
+
+          }
+
+
+          /*
+           * Display result.
+           */
+
+          if (resultURL) {
+
+            URL.revokeObjectURL(
+              resultURL
+            );
+
+          }
+
+
+          resultURL =
+            URL.createObjectURL(
+              resultBlob
+            );
+
+
+          previewImage.src =
+            resultURL;
+
+
+          previewBox.style.display =
+            "block";
+
+
+          downloadBtn.style.display =
+            "inline-block";
+
+
+          status.textContent =
+            "✓ Background removed successfully!";
+
+
+        } finally {
+
+          URL.revokeObjectURL(
+            imageURL
           );
 
-
-        /*
-         * Show result.
-         */
-
-        const resultURL =
-          URL.createObjectURL(
-            resultBlob
-          );
-
-
-        previewImage.src =
-          resultURL;
-
-
-        previewBox.style.display =
-          "block";
-
-
-        downloadBtn.style.display =
-          "inline-block";
-
-
-        status.textContent =
-          "✓ Background removed successfully!";
+        }
 
 
       } catch (error) {
@@ -761,19 +716,23 @@
         );
 
 
-        status.textContent =
-          "The AI could not process this image. Please try a smaller JPG or PNG image.";
+        if (
+          error &&
+          error.message ===
+          "IMAGE_TOO_LARGE"
+        ) {
 
-      } finally {
+          status.textContent =
+            "This image is too large. Please choose an image under 20 MB.";
 
-        if (imageURL) {
+        } else {
 
-          URL.revokeObjectURL(
-            imageURL
-          );
+          status.textContent =
+            "The AI could not process this image. Please refresh the page and try again.";
 
         }
 
+      } finally {
 
         removeBtn.disabled =
           false;
@@ -803,7 +762,8 @@
         document.createElement("a");
 
 
-      link.href = url;
+      link.href =
+        url;
 
       link.download =
         "background-removed.png";

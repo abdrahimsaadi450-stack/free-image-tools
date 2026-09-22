@@ -255,21 +255,46 @@ env.allowLocalModels = false;
 env.allowRemoteModels = true;
 env.useBrowserCache = true;
 
+
+/*
+  Use multiple CPU threads when available.
+  Maximum of 4 keeps the phone responsive.
+*/
 if (
   env.backends &&
   env.backends.onnx &&
   env.backends.onnx.wasm
 ) {
-  env.backends.onnx.wasm.numThreads = 2;
+
+  const cores =
+    navigator.hardwareConcurrency || 2;
+
+  env.backends.onnx.wasm.numThreads =
+    Math.min(Math.max(2, cores - 1), 4);
 }
 
-const fileInput = document.getElementById("fileInput");
-const removeBtn = document.getElementById("removeBtn");
-const preview = document.getElementById("preview");
-const status = document.getElementById("status");
-const download = document.getElementById("download");
-const progressBox = document.getElementById("progressBox");
-const progress = document.getElementById("progress");
+
+const fileInput =
+  document.getElementById("fileInput");
+
+const removeBtn =
+  document.getElementById("removeBtn");
+
+const preview =
+  document.getElementById("preview");
+
+const status =
+  document.getElementById("status");
+
+const download =
+  document.getElementById("download");
+
+const progressBox =
+  document.getElementById("progressBox");
+
+const progress =
+  document.getElementById("progress");
+
 
 let selectedFile = null;
 let segmenter = null;
@@ -279,9 +304,11 @@ let resultBlob = null;
 
 fileInput.addEventListener("change", () => {
 
-  const file = fileInput.files[0];
+  const file =
+    fileInput.files[0];
 
   if (!file) return;
+
 
   if (file.size > 25 * 1024 * 1024) {
 
@@ -289,224 +316,27 @@ fileInput.addEventListener("change", () => {
       "This image is larger than 25 MB. Please choose a smaller image.";
 
     removeBtn.disabled = true;
+
     return;
   }
 
+
   selectedFile = file;
 
-  const imageURL = URL.createObjectURL(file);
 
-  preview.src = imageURL;
-  preview.style.display = "block";
+  const imageURL =
+    URL.createObjectURL(file);
 
-  download.style.display = "none";
 
-  removeBtn.disabled = false;
+  preview.src =
+    imageURL;
 
-  status.textContent =
-    "Image ready. Click Remove Background.";
+  preview.style.display =
+    "block";
 
-});
 
+  download.style.display =
+    "none";
 
-async function loadModel() {
 
-  if (segmenter) {
-    return segmenter;
-  }
-
-  if (modelPromise) {
-    return modelPromise;
-  }
-
-  status.textContent =
-    "Loading AI model for the first time... Please wait.";
-
-  progressBox.style.display = "block";
-  progress.value = 5;
-
-  modelPromise = pipeline(
-    "background-removal",
-    MODEL_ID,
-    {
-      device: "wasm",
-      dtype: "int8",
-
-      progress_callback: (data) => {
-
-        if (data && data.progress != null) {
-
-          let value = Number(data.progress);
-
-          if (value >= 0 && value <= 100) {
-            progress.value = value;
-          }
-        }
-
-        if (data && data.status === "progress") {
-          status.textContent =
-            "Downloading AI model... " +
-            Math.round(data.progress || 0) +
-            "%";
-        }
-      }
-    }
-  );
-
-  segmenter = await modelPromise;
-
-  progress.value = 100;
-
-  status.textContent =
-    "AI model loaded. Processing image...";
-
-  return segmenter;
-}
-
-
-removeBtn.addEventListener("click", async () => {
-
-  if (!selectedFile) return;
-
-  removeBtn.disabled = true;
-
-  download.style.display = "none";
-
-  resultBlob = null;
-
-  try {
-
-    progressBox.style.display = "block";
-    progress.value = 0;
-
-    status.textContent =
-      "Preparing image...";
-
-    let imageURL =
-      URL.createObjectURL(selectedFile);
-
-    const img = new Image();
-
-    await new Promise((resolve, reject) => {
-
-      img.onload = resolve;
-      img.onerror = reject;
-
-      img.src = imageURL;
-
-    });
-
-    /*
-      Limit very large images to reduce browser memory
-      and make processing faster on phones.
-    */
-
-    const MAX_SIZE = 1400;
-
-    let width = img.naturalWidth;
-    let height = img.naturalHeight;
-
-    if (width > MAX_SIZE || height > MAX_SIZE) {
-
-      const scale =
-        Math.min(
-          MAX_SIZE / width,
-          MAX_SIZE / height
-        );
-
-      width = Math.round(width * scale);
-      height = Math.round(height * scale);
-    }
-
-    const canvas =
-      document.createElement("canvas");
-
-    canvas.width = width;
-    canvas.height = height;
-
-    const ctx =
-      canvas.getContext("2d");
-
-    ctx.drawImage(
-      img,
-      0,
-      0,
-      width,
-      height
-    );
-
-    const inputURL =
-      canvas.toDataURL("image/jpeg", 0.92);
-
-    URL.revokeObjectURL(imageURL);
-
-    const model =
-      await loadModel();
-
-    status.textContent =
-      "Removing background...";
-
-    progress.value = 50;
-
-    const output =
-      await model(inputURL);
-
-    if (
-      !output ||
-      !output[0]
-    ) {
-      throw new Error(
-        "The AI model returned no result."
-      );
-    }
-
-    const resultImage =
-      output[0];
-
-    resultBlob =
-      await resultImage.toBlob();
-
-    if (!resultBlob) {
-      throw new Error(
-        "Could not create transparent PNG."
-      );
-    }
-
-    const resultURL =
-      URL.createObjectURL(resultBlob);
-
-    download.href = resultURL;
-
-    download.style.display = "block";
-
-    progress.value = 100;
-
-    status.textContent =
-      "Done! Your background has been removed.";
-
-  } catch (error) {
-
-    console.error(
-      "Background removal error:",
-      error
-    );
-
-    status.innerHTML =
-      "<strong>Processing failed.</strong><br>" +
-      "Please refresh the page and try again.<br><br>" +
-      "<small>" +
-      (error.message || "Unknown error") +
-      "</small>";
-
-  } finally {
-
-    removeBtn.disabled = false;
-
-  }
-
-});
-
-</script>
-
-</body>
-</html>
+  remove

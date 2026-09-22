@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="description" content="Free online image resizer. Resize images to your desired width and height quickly and easily in your browser.">
+  <meta name="description" content="Free online image resizer. Resize images quickly and easily to your desired dimensions.">
 
   <meta name="robots" content="index, follow">
 
@@ -43,15 +43,15 @@
     .container {
       max-width: 900px;
       margin: auto;
-      padding: 35px 20px;
+      padding: 30px 20px;
     }
 
     .tool-box,
     .content-box {
       background: white;
-      border-radius: 14px;
       padding: 28px;
       margin-bottom: 25px;
+      border-radius: 14px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
 
@@ -59,8 +59,7 @@
       text-align: center;
     }
 
-    input[type="file"],
-    input[type="number"] {
+    input {
       width: 100%;
       max-width: 500px;
       padding: 12px;
@@ -68,6 +67,27 @@
       border: 1px solid #ccc;
       border-radius: 7px;
       font-size: 16px;
+    }
+
+    button {
+      background: #111827;
+      color: white;
+      border: 0;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    #download {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 20px;
+      background: #16a34a;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
     }
 
     label {
@@ -78,8 +98,45 @@
       font-weight: bold;
     }
 
-    button {
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #111827;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    footer {
       background: #111827;
+      color: #d1d5db;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    footer a {
       color: white;
-      border: none;
-      padding: 12px 
+      text-decoration: none;
+      margin: 0 7px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Free Image Resizer</h1>
+  <p>Resize images to the dimensions you need.</p>
+</header>
+
+<main class="container">
+
+  <a class="back" href="index.html">← Back to Free Image Tools</a>
+
+  <div class="tool-box">
+
+    <h2>Resize Your Image</h2>
+
+    <input type="file" id="imageInput" accept="image/*">
+
+    <label>Width (pixels)</label>
+    <input type="number"

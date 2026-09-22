@@ -126,7 +126,7 @@
       cursor: pointer;
       background: #2563eb;
       color: white;
-      min-width: 210px;
+      min-width: 230px;
       transition: 0.2s;
     }
 
@@ -144,4 +144,508 @@
       margin-top: 20px;
       font-weight: bold;
       color: #374151;
-     
+      min-height: 28px;
+    }
+
+    .preview {
+      margin-top: 25px;
+      display: none;
+    }
+
+    .preview h3 {
+      margin-bottom: 12px;
+    }
+
+    #previewImage {
+      max-width: 100%;
+      max-height: 500px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      background-image:
+        linear-gradient(45deg, #eee 25%, transparent 25%),
+        linear-gradient(-45deg, #eee 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #eee 75%),
+        linear-gradient(-45deg, transparent 75%, #eee 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+
+    #downloadBtn {
+      display: none;
+      background: #16a34a;
+    }
+
+    #downloadBtn:hover {
+      background: #15803d;
+    }
+
+    .info {
+      margin-top: 35px;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+    }
+
+    .info h2 {
+      color: #111827;
+      margin-top: 0;
+    }
+
+    .info h3 {
+      color: #1f2937;
+      margin-top: 25px;
+    }
+
+    .info p {
+      color: #4b5563;
+    }
+
+    .info li {
+      margin-bottom: 8px;
+    }
+
+    .privacy-note {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #eff6ff;
+      color: #1e40af;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #374151;
+      text-decoration: none;
+      margin: 0 6px;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 25px;
+      }
+
+      .tool {
+        padding: 20px;
+      }
+
+      .upload-box {
+        padding: 30px 15px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>AI Background Remover</h1>
+  <p>Remove image backgrounds online for free</p>
+</header>
+
+<div class="container">
+
+  <a class="back" href="index.html">← Back to Free Image Tools</a>
+
+  <div class="tool">
+
+    <label class="upload-box" for="imageInput">
+      <strong>📷 Choose an Image</strong>
+      <span>JPG, JPEG, PNG or WEBP</span>
+    </label>
+
+    <input
+      type="file"
+      id="imageInput"
+      accept="image/jpeg,image/png,image/webp"
+    >
+
+    <button id="removeBtn" type="button">
+      Remove Background
+    </button>
+
+    <div id="status">
+      Choose an image to begin.
+    </div>
+
+    <div class="preview" id="previewBox">
+      <h3>Result</h3>
+      <img id="previewImage" alt="Background removed image">
+      <br>
+      <button id="downloadBtn" type="button">
+        Download Transparent PNG
+      </button>
+    </div>
+
+  </div>
+
+  <div class="info">
+
+    <h2>Free AI Image Background Remover</h2>
+
+    <p>
+      Remove backgrounds from your images directly in your browser.
+      This free tool creates a transparent PNG without requiring a paid server.
+    </p>
+
+    <div class="privacy-note">
+      🔒 Your selected image is processed in your browser.
+      The image is not uploaded to our website.
+    </div>
+
+    <h3>How to Remove an Image Background</h3>
+
+    <ol>
+      <li>Choose a JPG, PNG or WEBP image.</li>
+      <li>Tap "Remove Background".</li>
+      <li>Wait while the AI model processes the image.</li>
+      <li>Download your transparent PNG.</li>
+    </ol>
+
+    <h3>Works on Mobile</h3>
+
+    <p>
+      The tool is designed to work directly in modern mobile and desktop
+      browsers. Processing happens locally in the browser using
+      browser-based machine learning.
+    </p>
+
+    <h3>Free and Private</h3>
+
+    <p>
+      No account is required and there is no paid server involved.
+      Your original image stays on your device while the background
+      removal process runs.
+    </p>
+
+  </div>
+
+</div>
+
+<footer>
+
+  <a href="index.html">Home</a> |
+  <a href="about.html">About</a> |
+  <a href="privacy.html">Privacy Policy</a> |
+  <a href="contact.html">Contact</a> |
+  <a href="terms.html">Terms of Service</a> |
+  <a href="disclaimer.html">Disclaimer</a>
+
+  <br><br>
+
+  © 2026 Free Image Tools. All rights reserved.
+
+</footer>
+
+
+<script type="module">
+
+  import { pipeline, RawImage } from
+    "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2/+esm";
+
+  const imageInput = document.getElementById("imageInput");
+  const removeBtn = document.getElementById("removeBtn");
+  const status = document.getElementById("status");
+  const previewBox = document.getElementById("previewBox");
+  const previewImage = document.getElementById("previewImage");
+  const downloadBtn = document.getElementById("downloadBtn");
+
+  let selectedFile = null;
+  let segmenter = null;
+  let resultBlob = null;
+
+  imageInput.addEventListener("change", function () {
+
+    selectedFile = this.files && this.files.length
+      ? this.files[0]
+      : null;
+
+    previewBox.style.display = "none";
+    downloadBtn.style.display = "none";
+    resultBlob = null;
+
+    if (!selectedFile) {
+      status.textContent = "Choose an image to begin.";
+      removeBtn.disabled = false;
+      return;
+    }
+
+    const sizeMB = selectedFile.size / (1024 * 1024);
+
+    if (sizeMB > 15) {
+      status.textContent =
+        "Large image detected. Processing may take longer on mobile.";
+    } else {
+      status.textContent =
+        "Image selected. Tap Remove Background.";
+    }
+
+    removeBtn.disabled = false;
+  });
+
+
+  async function loadModel() {
+
+    if (segmenter) {
+      return segmenter;
+    }
+
+    status.textContent =
+      "Loading AI model for the first time... Please wait.";
+
+    removeBtn.disabled = true;
+
+    segmenter = await pipeline(
+      "background-removal",
+      "onnx-community/BEN2-ONNX",
+      {
+        device: "wasm",
+        dtype: "q8"
+      }
+    );
+
+    return segmenter;
+  }
+
+
+  removeBtn.addEventListener("click", async function () {
+
+    if (!selectedFile) {
+      status.textContent =
+        "Please choose an image first.";
+      return;
+    }
+
+    removeBtn.disabled = true;
+    downloadBtn.style.display = "none";
+    previewBox.style.display = "none";
+
+    try {
+
+      status.textContent =
+        "Preparing image...";
+
+      const imageURL = URL.createObjectURL(selectedFile);
+
+      status.textContent =
+        "Loading AI background remover...";
+
+      const model = await loadModel();
+
+      status.textContent =
+        "Removing background... This may take a little while on mobile.";
+
+      const output = await model(imageURL);
+
+      URL.revokeObjectURL(imageURL);
+
+      if (!output || !output.length) {
+        throw new Error("No background mask was returned.");
+      }
+
+      status.textContent =
+        "Creating transparent PNG...";
+
+      const mask = output[0];
+
+      const originalBitmap =
+        await createImageBitmap(selectedFile);
+
+      const width = originalBitmap.width;
+      const height = originalBitmap.height;
+
+      const canvas = document.createElement("canvas");
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext("2d", {
+        willReadFrequently: true
+      });
+
+      ctx.drawImage(
+        originalBitmap,
+        0,
+        0,
+        width,
+        height
+      );
+
+      const originalData =
+        ctx.getImageData(0, 0, width, height);
+
+      const maskCanvas =
+        document.createElement("canvas");
+
+      maskCanvas.width = mask.width;
+      maskCanvas.height = mask.height;
+
+      const maskCtx =
+        maskCanvas.getContext("2d", {
+          willReadFrequently: true
+        });
+
+      const maskData =
+        new ImageData(
+          new Uint8ClampedArray(mask.data),
+          mask.width,
+          mask.height
+        );
+
+      maskCtx.putImageData(maskData, 0, 0);
+
+      const resizedMask =
+        document.createElement("canvas");
+
+      resizedMask.width = width;
+      resizedMask.height = height;
+
+      const resizedCtx =
+        resizedMask.getContext("2d", {
+          willReadFrequently: true
+        });
+
+      resizedCtx.drawImage(
+        maskCanvas,
+        0,
+        0,
+        width,
+        height
+      );
+
+      const finalMask =
+        resizedCtx.getImageData(
+          0,
+          0,
+          width,
+          height
+        );
+
+      const pixels = originalData.data;
+      const alpha = finalMask.data;
+
+      for (let i = 0, p = 0; i < pixels.length; i += 4, p += 4) {
+
+        let a = alpha[p];
+
+        /*
+         * Smooth the edge slightly.
+         * This helps preserve hair and fine details.
+         */
+
+        if (a < 20) {
+          a = 0;
+        } else if (a > 235) {
+          a = 255;
+        }
+
+        pixels[i + 3] =
+          Math.min(
+            pixels[i + 3],
+            a
+          );
+      }
+
+      ctx.putImageData(
+        originalData,
+        0,
+        0
+      );
+
+      resultBlob = await new Promise(
+        function(resolve, reject) {
+
+          canvas.toBlob(
+            function(blob) {
+
+              if (blob) {
+                resolve(blob);
+              } else {
+                reject(
+                  new Error(
+                    "Could not create PNG."
+                  )
+                );
+              }
+
+            },
+            "image/png"
+          );
+
+        }
+      );
+
+      previewImage.src =
+        URL.createObjectURL(resultBlob);
+
+      previewBox.style.display = "block";
+      downloadBtn.style.display = "inline-block";
+
+      status.textContent =
+        "✓ Background removed successfully!";
+
+    } catch (error) {
+
+      console.error(
+        "Background removal error:",
+        error
+      );
+
+      status.textContent =
+        "Something went wrong. Please try another image or refresh the page.";
+
+    } finally {
+
+      removeBtn.disabled = false;
+
+    }
+
+  });
+
+
+  downloadBtn.addEventListener("click", function () {
+
+    if (!resultBlob) {
+      return;
+    }
+
+    const url =
+      URL.createObjectURL(resultBlob);
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+    link.download =
+      "background-removed.png";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    setTimeout(
+      function() {
+        URL.revokeObjectURL(url);
+      },
+      1000
+    );
+
+  });
+
+</script>
+
+</body>
+</html>

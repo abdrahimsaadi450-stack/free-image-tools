@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Free Image Tools - Compress, Resize & Convert Images</title>
+<title>Free Image Tools - Compress, Resize & Convert</title>
 
-<meta name="description" content="Free online image tools to compress, resize and convert JPG and PNG images. Remove image backgrounds and download your images easily.">
+<meta name="description" content="Free online image tools to compress, resize, convert and edit images. Simple, fast and easy to use.">
 
 <style>
 body{
@@ -31,7 +31,6 @@ header h1{
 header p{
     margin:0;
     color:#d1d5db;
-    font-size:16px;
 }
 
 .container{
@@ -72,24 +71,19 @@ header p{
     padding:12px 20px;
     border-radius:8px;
     text-decoration:none;
-    font-size:15px;
 }
 
 .button:hover{
     background:#1d4ed8;
 }
 
-#compressor{
+.tool-box{
     margin-top:30px;
     background:white;
     padding:30px 20px;
     border-radius:12px;
     box-shadow:0 3px 12px rgba(0,0,0,.08);
     text-align:center;
-}
-
-#compressor h2{
-    margin-top:0;
 }
 
 input[type="file"]{
@@ -152,12 +146,6 @@ footer a{
     <div class="tools">
 
         <div class="card">
-            <h2>Image Compressor</h2>
-            <p>Reduce image file size while keeping good image quality.</p>
-            <a class="button" href="#compressor">Use Tool</a>
-        </div>
-
-        <div class="card">
             <h2>Image Resizer</h2>
             <p>Resize images to your preferred width and height.</p>
             <a class="button" href="resize-image.html">Open Tool</a>
@@ -181,11 +169,17 @@ footer a{
             <a class="button" href="remove-background.html">Open Tool</a>
         </div>
 
+        <div class="card">
+            <h2>Image Compressor</h2>
+            <p>Reduce image file size while keeping good image quality.</p>
+            <a class="button" href="#compressor">Use Tool</a>
+        </div>
+
     </div>
 
-    <div id="compressor">
+    <div class="tool-box" id="compressor">
 
-        <h2>Free Image Compressor</h2>
+        <h2>Image Compressor</h2>
 
         <p>Select an image to reduce its file size.</p>
 
@@ -241,11 +235,8 @@ function compressImage(){
 
         img.onload = function(){
 
-            const canvas =
-            document.createElement("canvas");
-
-            const ctx =
-            canvas.getContext("2d");
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
 
             canvas.width = img.width;
             canvas.height = img.height;
@@ -254,8 +245,7 @@ function compressImage(){
 
             canvas.toBlob(function(blob){
 
-                const url =
-                URL.createObjectURL(blob);
+                const url = URL.createObjectURL(blob);
 
                 const originalKB =
                 (file.size / 1024).toFixed(1);
@@ -264,7 +254,6 @@ function compressImage(){
                 (blob.size / 1024).toFixed(1);
 
                 result.innerHTML = `
-
                     <p>
                     <strong>Original:</strong>
                     ${originalKB} KB
@@ -275,13 +264,10 @@ function compressImage(){
                     ${compressedKB} KB
                     </p>
 
-                    <a
-                    class="download"
-                    href="${url}"
-                    download="compressed-image.jpg">
-
-                    Download Compressed Image
-
+                    <a class="download"
+                       href="${url}"
+                       download="compressed-image.jpg">
+                       Download Compressed Image
                     </a>
                 `;
 

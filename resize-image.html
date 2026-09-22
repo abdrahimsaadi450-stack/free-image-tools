@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="description" content="Free online image resizer. Resize images quickly and easily to your desired dimensions.">
+  <meta name="description" content="Free online image resizer. Resize JPG, PNG, and other images quickly to your desired width and height.">
 
   <meta name="robots" content="index, follow">
 
@@ -80,6 +80,10 @@
       margin-top: 15px;
     }
 
+    button:hover {
+      opacity: 0.9;
+    }
+
     #download {
       display: inline-block;
       margin-top: 15px;
@@ -106,6 +110,16 @@
       text-decoration: none;
     }
 
+    .content-box h2 {
+      margin-top: 0;
+    }
+
+    .content-box a {
+      color: #2563eb;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
     footer {
       background: #111827;
       color: #d1d5db;
@@ -118,6 +132,17 @@
       text-decoration: none;
       margin: 0 7px;
     }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 28px;
+      }
+
+      .tool-box,
+      .content-box {
+        padding: 20px;
+      }
+    }
   </style>
 </head>
 
@@ -125,7 +150,7 @@
 
 <header>
   <h1>Free Image Resizer</h1>
-  <p>Resize images to the dimensions you need.</p>
+  <p>Resize images quickly and easily to the dimensions you need.</p>
 </header>
 
 <main class="container">
@@ -136,7 +161,335 @@
 
     <h2>Resize Your Image</h2>
 
-    <input type="file" id="imageInput" accept="image/*">
+    <p>Select an image and enter the new dimensions.</p>
 
-    <label>Width (pixels)</label>
-    <input type="number"
+    <input
+      type="file"
+      id="imageInput"
+      accept="image/*"
+    >
+
+    <label for="width">Width (pixels)</label>
+
+    <input
+      type="number"
+      id="width"
+      min="1"
+      placeholder="Enter width"
+    >
+
+    <label for="height">Height (pixels)</label>
+
+    <input
+      type="number"
+      id="height"
+      min="1"
+      placeholder="Enter height"
+    >
+
+    <br>
+
+    <button id="resizeButton">
+      Resize Image
+    </button>
+
+    <div id="result"></div>
+
+  </div>
+
+
+  <div class="content-box">
+
+    <h2>What Is an Image Resizer?</h2>
+
+    <p>
+      An image resizer changes the width and height of an image.
+      It can be useful when you need an image with specific dimensions
+      for a website, social media, documents, thumbnails, or other
+      digital projects.
+    </p>
+
+    <p>
+      This free image resizer works directly in your web browser.
+      No software installation or account is required.
+    </p>
+
+  </div>
+
+
+  <div class="content-box">
+
+    <h2>How to Resize an Image</h2>
+
+    <ol>
+      <li>Select an image from your device.</li>
+      <li>Enter the desired width in pixels.</li>
+      <li>Enter the desired height in pixels.</li>
+      <li>Click the "Resize Image" button.</li>
+      <li>Download your resized image.</li>
+    </ol>
+
+  </div>
+
+
+  <div class="content-box">
+
+    <h2>Benefits of Resizing Images</h2>
+
+    <ul>
+      <li>Prepare images for websites.</li>
+      <li>Create images with specific pixel dimensions.</li>
+      <li>Resize images for social media.</li>
+      <li>Prepare thumbnails and digital graphics.</li>
+      <li>Resize images without installing software.</li>
+    </ul>
+
+  </div>
+
+
+  <div class="content-box">
+
+    <h2>Frequently Asked Questions</h2>
+
+    <h3>Is this image resizer free?</h3>
+
+    <p>
+      Yes. The image resizer is free to use and does not require an account.
+    </p>
+
+
+    <h3>What unit is used for image dimensions?</h3>
+
+    <p>
+      Width and height are measured in pixels.
+    </p>
+
+
+    <h3>Do I need to install software?</h3>
+
+    <p>
+      No. The tool works directly in your web browser.
+    </p>
+
+
+    <h3>Are my images uploaded to a server?</h3>
+
+    <p>
+      The resizing process is performed directly in your browser.
+      The tool does not require uploading your image to a separate
+      image-processing service.
+    </p>
+
+
+    <h3>Can I resize JPG and PNG images?</h3>
+
+    <p>
+      Yes. You can select common image formats supported by your browser,
+      including JPG and PNG.
+    </p>
+
+  </div>
+
+
+  <div class="content-box">
+
+    <h2>More Free Image Tools</h2>
+
+    <p>
+      <a href="compress-image.html">Image Compressor</a>
+      &nbsp;|&nbsp;
+      <a href="jpg-to-png.html">JPG to PNG</a>
+      &nbsp;|&nbsp;
+      <a href="png-to-jpg.html">PNG to JPG</a>
+      &nbsp;|&nbsp;
+      <a href="remove-background.html">Remove Background</a>
+    </p>
+
+  </div>
+
+</main>
+
+
+<footer>
+
+  <p>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="contact.html">Contact</a>
+  </p>
+
+  <p>
+    © 2026 Free Image Tools. All rights reserved.
+  </p>
+
+</footer>
+
+
+<script>
+
+  let image = new Image();
+
+  const imageInput = document.getElementById("imageInput");
+  const widthInput = document.getElementById("width");
+  const heightInput = document.getElementById("height");
+  const resizeButton = document.getElementById("resizeButton");
+  const result = document.getElementById("result");
+
+
+  imageInput.addEventListener("change", function() {
+
+    const file = this.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    result.innerHTML = "<p>Loading image...</p>";
+
+    const reader = new FileReader();
+
+
+    reader.onload = function(event) {
+
+      const newImage = new Image();
+
+
+      newImage.onload = function() {
+
+        image = newImage;
+
+        widthInput.value = image.naturalWidth;
+        heightInput.value = image.naturalHeight;
+
+        result.innerHTML =
+          "<p><strong>Original size:</strong> " +
+          image.naturalWidth +
+          " × " +
+          image.naturalHeight +
+          " pixels</p>";
+
+      };
+
+
+      newImage.onerror = function() {
+
+        result.innerHTML =
+          "<p>Unable to load this image. Please try another image.</p>";
+
+      };
+
+
+      newImage.src = event.target.result;
+
+    };
+
+
+    reader.onerror = function() {
+
+      result.innerHTML =
+        "<p>Unable to read the image. Please try again.</p>";
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+  });
+
+
+  resizeButton.addEventListener("click", function() {
+
+    const width = parseInt(widthInput.value, 10);
+    const height = parseInt(heightInput.value, 10);
+
+
+    if (!image.src) {
+
+      result.innerHTML =
+        "<p>Please select an image first.</p>";
+
+      return;
+
+    }
+
+
+    if (
+      !Number.isFinite(width) ||
+      !Number.isFinite(height) ||
+      width < 1 ||
+      height < 1
+    ) {
+
+      result.innerHTML =
+        "<p>Please enter valid width and height.</p>";
+
+      return;
+
+    }
+
+
+    const canvas = document.createElement("canvas");
+
+    canvas.width = width;
+    canvas.height = height;
+
+
+    const ctx = canvas.getContext("2d");
+
+
+    if (!ctx) {
+
+      result.innerHTML =
+        "<p>Your browser does not support image resizing.</p>";
+
+      return;
+
+    }
+
+
+    ctx.drawImage(
+      image,
+      0,
+      0,
+      width,
+      height
+    );
+
+
+    canvas.toBlob(function(blob) {
+
+      if (!blob) {
+
+        result.innerHTML =
+          "<p>Something went wrong. Please try again.</p>";
+
+        return;
+
+      }
+
+
+      const url = URL.createObjectURL(blob);
+
+
+      result.innerHTML =
+        "<p><strong>New size:</strong> " +
+        width +
+        " × " +
+        height +
+        " pixels</p>" +
+
+        '<a id="download" href="' +
+        url +
+        '" download="resized-image.jpg">' +
+        "Download Resized Image" +
+        "</a>";
+
+    }, "image/jpeg", 0.9);
+
+  });
+
+</script>
+
+</body>
+</html>

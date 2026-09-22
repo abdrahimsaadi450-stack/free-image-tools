@@ -1,16 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta name="description" content="Free online image resizer. Resize JPG, PNG, and other images quickly to your desired width and height.">
-
-  <meta name="robots" content="index, follow">
-
-  <title>Free Image Resizer - Resize Images Online</title>
-
-  <style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <meta name="description" content="Resize images online for free. Change JPG, PNG and other image dimensions to any width and height in pixels directly in your browser.">  <meta name="robots" content="index, follow">  <meta name="keywords" content="image resizer, resize image, resize images online, free image resizer, change image size, resize JPG, resize PNG, image dimensions, resize photo">  <link rel="canonical" href="https://abdrahimsaadi450-stack.github.io/free-image-tools/resize-image.html">  <meta property="og:title" content="Free Image Resizer - Resize Images Online">
+  <meta property="og:description" content="Resize JPG, PNG and other images online for free. Choose your exact width and height in pixels.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://abdrahimsaadi450-stack.github.io/free-image-tools/resize-image.html">  <title>Free Image Resizer - Resize Images Online</title>  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Free Image Resizer",
+    "url": "https://abdrahimsaadi450-stack.github.io/free-image-tools/resize-image.html",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "description": "A free browser-based image resizer for changing image width and height.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is this image resizer free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The image resizer is free to use and does not require an account."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What unit is used for image dimensions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Image width and height are measured in pixels."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to install software?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The tool works directly in a modern web browser."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are my images uploaded to a server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The resizing process is performed directly in your browser and does not require uploading the image to a separate image-processing service."
+        }
+      }
+    ]
+  }
+  </script>  <style>
     * {
       box-sizing: border-box;
     }
@@ -131,6 +180,12 @@
       color: white;
       text-decoration: none;
       margin: 0 7px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
 
     @media (max-width: 600px) {
@@ -143,190 +198,155 @@
         padding: 20px;
       }
     }
-  </style>
-</head>
-
-<body>
-
-<header>
+  </style></head><body><header>
   <h1>Free Image Resizer</h1>
   <p>Resize images quickly and easily to the dimensions you need.</p>
-</header>
+</header><main class="container"><a class="back" href="index.html">← Back to Free Image Tools</a>
 
-<main class="container">
+  <div class="tool-box"><h2>Resize Your Image Online</h2>
 
-  <a class="back" href="index.html">← Back to Free Image Tools</a>
+<p>
+  Select an image and enter the exact width and height you want.
+</p>
 
-  <div class="tool-box">
+<input
+  type="file"
+  id="imageInput"
+  accept="image/*"
+>
 
-    <h2>Resize Your Image</h2>
+<label for="width">Width (pixels)</label>
 
-    <p>Select an image and enter the new dimensions.</p>
+<input
+  type="number"
+  id="width"
+  min="1"
+  placeholder="Enter width"
+>
 
-    <input
-      type="file"
-      id="imageInput"
-      accept="image/*"
-    >
+<label for="height">Height (pixels)</label>
 
-    <label for="width">Width (pixels)</label>
+<input
+  type="number"
+  id="height"
+  min="1"
+  placeholder="Enter height"
+>
 
-    <input
-      type="number"
-      id="width"
-      min="1"
-      placeholder="Enter width"
-    >
+<br>
 
-    <label for="height">Height (pixels)</label>
+<button id="resizeButton">
+  Resize Image
+</button>
 
-    <input
-      type="number"
-      id="height"
-      min="1"
-      placeholder="Enter height"
-    >
+<div id="result"></div>
 
-    <br>
+  </div>  <div class="content-box"><h2>What Is an Image Resizer?</h2>
 
-    <button id="resizeButton">
-      Resize Image
-    </button>
+<p>
+  An image resizer changes the width and height of an image.
+  It is useful when you need an image with specific dimensions
+  for a website, social media post, profile picture, thumbnail,
+  document, online store or other digital project.
+</p>
 
-    <div id="result"></div>
+<p>
+  This free image resizer works directly in your web browser.
+  No software installation or account is required.
+</p>
 
-  </div>
+  </div>  <div class="content-box"><h2>How to Resize an Image</h2>
 
+<ol>
+  <li>Select an image from your device.</li>
+  <li>Enter the desired width in pixels.</li>
+  <li>Enter the desired height in pixels.</li>
+  <li>Click the <strong>Resize Image</strong> button.</li>
+  <li>Download your resized image.</li>
+</ol>
 
-  <div class="content-box">
+  </div>  <div class="content-box"><h2>Why Resize Images?</h2>
 
-    <h2>What Is an Image Resizer?</h2>
+<p>
+  Different websites and digital platforms often require images
+  with specific dimensions. Resizing an image can help you prepare
+  files for websites, social media, thumbnails, documents and
+  other online uses.
+</p>
 
-    <p>
-      An image resizer changes the width and height of an image.
-      It can be useful when you need an image with specific dimensions
-      for a website, social media, documents, thumbnails, or other
-      digital projects.
-    </p>
+<p>
+  Changing the pixel dimensions can also make an image easier to
+  fit into a specific design or layout.
+</p>
 
-    <p>
-      This free image resizer works directly in your web browser.
-      No software installation or account is required.
-    </p>
+  </div>  <div class="content-box"><h2>Benefits of Resizing Images Online</h2>
 
-  </div>
+<ul>
+  <li>Choose exact width and height in pixels.</li>
+  <li>Prepare images for websites.</li>
+  <li>Resize images for social media.</li>
+  <li>Create thumbnails with specific dimensions.</li>
+  <li>Resize images without installing software.</li>
+  <li>Use the tool from computers, tablets and mobile devices.</li>
+</ul>
 
+  </div>  <div class="content-box"><h2>Frequently Asked Questions</h2>
 
-  <div class="content-box">
+<h3>Is this image resizer free?</h3>
 
-    <h2>How to Resize an Image</h2>
+<p>
+  Yes. The image resizer is free to use and does not require an account.
+</p>
 
-    <ol>
-      <li>Select an image from your device.</li>
-      <li>Enter the desired width in pixels.</li>
-      <li>Enter the desired height in pixels.</li>
-      <li>Click the "Resize Image" button.</li>
-      <li>Download your resized image.</li>
-    </ol>
+<h3>What unit is used for image dimensions?</h3>
 
-  </div>
+<p>
+  Width and height are measured in pixels.
+</p>
 
+<h3>Do I need to install software?</h3>
 
-  <div class="content-box">
+<p>
+  No. The tool works directly in your web browser.
+</p>
 
-    <h2>Benefits of Resizing Images</h2>
+<h3>Are my images uploaded to a server?</h3>
 
-    <ul>
-      <li>Prepare images for websites.</li>
-      <li>Create images with specific pixel dimensions.</li>
-      <li>Resize images for social media.</li>
-      <li>Prepare thumbnails and digital graphics.</li>
-      <li>Resize images without installing software.</li>
-    </ul>
+<p>
+  The resizing process is performed directly in your browser.
+  The tool does not require uploading your image to a separate
+  image-processing service.
+</p>
 
-  </div>
+<h3>Can I resize JPG and PNG images?</h3>
 
+<p>
+  Yes. You can select common image formats supported by your browser,
+  including JPG and PNG.
+</p>
 
-  <div class="content-box">
+  </div>  <div class="content-box"><h2>More Free Image Tools</h2>
 
-    <h2>Frequently Asked Questions</h2>
+<p>
+  <a href="compress-image.html">Image Compressor</a>
+  &nbsp;|&nbsp;
+  <a href="jpg-to-png.html">JPG to PNG</a>
+  &nbsp;|&nbsp;
+  <a href="png-to-jpg.html">PNG to JPG</a>
+  &nbsp;|&nbsp;
+  <a href="remove-background.html">Remove Background</a>
+</p>
 
-    <h3>Is this image resizer free?</h3>
-
-    <p>
-      Yes. The image resizer is free to use and does not require an account.
-    </p>
-
-
-    <h3>What unit is used for image dimensions?</h3>
-
-    <p>
-      Width and height are measured in pixels.
-    </p>
-
-
-    <h3>Do I need to install software?</h3>
-
-    <p>
-      No. The tool works directly in your web browser.
-    </p>
-
-
-    <h3>Are my images uploaded to a server?</h3>
-
-    <p>
-      The resizing process is performed directly in your browser.
-      The tool does not require uploading your image to a separate
-      image-processing service.
-    </p>
-
-
-    <h3>Can I resize JPG and PNG images?</h3>
-
-    <p>
-      Yes. You can select common image formats supported by your browser,
-      including JPG and PNG.
-    </p>
-
-  </div>
-
-
-  <div class="content-box">
-
-    <h2>More Free Image Tools</h2>
-
-    <p>
-      <a href="compress-image.html">Image Compressor</a>
-      &nbsp;|&nbsp;
-      <a href="jpg-to-png.html">JPG to PNG</a>
-      &nbsp;|&nbsp;
-      <a href="png-to-jpg.html">PNG to JPG</a>
-      &nbsp;|&nbsp;
-      <a href="remove-background.html">Remove Background</a>
-    </p>
-
-  </div>
-
-</main>
-
-
-<footer>
-
-  <p>
+  </div></main><footer>  <p>
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="privacy.html">Privacy Policy</a>
     <a href="contact.html">Contact</a>
-  </p>
-
-  <p>
+    <a href="terms.html">Terms of Service</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </p>  <p>
     © 2026 Free Image Tools. All rights reserved.
-  </p>
-
-</footer>
-
-
-<script>
+  </p></footer><script>
 
   let image = new Image();
 
@@ -335,7 +355,6 @@
   const heightInput = document.getElementById("height");
   const resizeButton = document.getElementById("resizeButton");
   const result = document.getElementById("result");
-
 
   imageInput.addEventListener("change", function() {
 
@@ -349,11 +368,9 @@
 
     const reader = new FileReader();
 
-
     reader.onload = function(event) {
 
       const newImage = new Image();
-
 
       newImage.onload = function() {
 
@@ -371,7 +388,6 @@
 
       };
 
-
       newImage.onerror = function() {
 
         result.innerHTML =
@@ -379,11 +395,9 @@
 
       };
 
-
       newImage.src = event.target.result;
 
     };
-
 
     reader.onerror = function() {
 
@@ -392,17 +406,14 @@
 
     };
 
-
     reader.readAsDataURL(file);
 
   });
-
 
   resizeButton.addEventListener("click", function() {
 
     const width = parseInt(widthInput.value, 10);
     const height = parseInt(heightInput.value, 10);
-
 
     if (!image.src) {
 
@@ -412,7 +423,6 @@
       return;
 
     }
-
 
     if (
       !Number.isFinite(width) ||
@@ -428,15 +438,12 @@
 
     }
 
-
     const canvas = document.createElement("canvas");
 
     canvas.width = width;
     canvas.height = height;
 
-
     const ctx = canvas.getContext("2d");
-
 
     if (!ctx) {
 
@@ -447,7 +454,6 @@
 
     }
 
-
     ctx.drawImage(
       image,
       0,
@@ -455,7 +461,6 @@
       width,
       height
     );
-
 
     canvas.toBlob(function(blob) {
 
@@ -468,9 +473,7 @@
 
       }
 
-
       const url = URL.createObjectURL(blob);
-
 
       result.innerHTML =
         "<p><strong>New size:</strong> " +
@@ -489,7 +492,5 @@
 
   });
 
-</script>
-
-</body>
+</script></body>
 </html>

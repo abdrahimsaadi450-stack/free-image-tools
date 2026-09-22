@@ -1,16 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta name="description" content="Free online image compressor. Reduce JPG and PNG image file sizes quickly and easily in your browser.">
-
-  <meta name="robots" content="index, follow">
-
-  <title>Free Image Compressor - Reduce Image Size Online</title>
-
-  <style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <meta name="description" content="Compress images online for free. Reduce JPG, JPEG and PNG image file sizes quickly in your browser without installing software or creating an account.">  <meta name="robots" content="index, follow">  <meta name="keywords" content="image compressor, compress image, compress images online, reduce image size, reduce JPG size, reduce JPEG size, free image compressor, image compression">  <link rel="canonical" href="https://abdrahimsaadi450-stack.github.io/free-image-tools/compress-image.html">  <meta property="og:title" content="Free Image Compressor - Reduce Image Size Online">
+  <meta property="og:description" content="Compress images online for free and reduce image file size directly in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://abdrahimsaadi450-stack.github.io/free-image-tools/compress-image.html">  <title>Free Image Compressor - Reduce Image Size Online</title>  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Free Image Compressor",
+    "url": "https://abdrahimsaadi450-stack.github.io/free-image-tools/compress-image.html",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "description": "A free browser-based image compressor that reduces image file size.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is this image compressor free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The image compressor is free to use and does not require an account."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to install software?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The image compressor works directly in a modern web browser."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are my images uploaded to a server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The image processing is performed directly in your browser and does not require uploading the image to a separate image-processing service."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will image compression affect quality?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Compression can affect visual quality depending on the image and compression settings. This tool is designed to reduce file size while keeping the result useful."
+        }
+      }
+    ]
+  }
+  </script>  <style>
     * {
       box-sizing: border-box;
     }
@@ -111,6 +160,15 @@
       color: #111827;
     }
 
+    a {
+      color: #2563eb;
+    }
+
+    .tool-links a {
+      display: inline-block;
+      margin: 4px 3px;
+    }
+
     footer {
       background: #111827;
       color: #d1d5db;
@@ -123,6 +181,12 @@
       color: white;
       text-decoration: none;
       margin: 0 7px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
 
     @media (max-width: 600px) {
@@ -139,146 +203,138 @@
         padding: 22px;
       }
     }
-  </style>
-</head>
-
-<body>
-
-  <header>
+  </style></head><body>  <header>
     <h1>Free Image Compressor</h1>
     <p>Reduce image file size quickly and easily.</p>
-  </header>
+  </header>  <main class="container"><a class="back" href="index.html">← Back to Free Image Tools</a>
 
-  <main class="container">
+<section class="tool-box">
 
-    <a class="back" href="index.html">← Back to Free Image Tools</a>
+  <h2>Compress Your Image Online</h2>
 
-    <section class="tool-box">
+  <p>
+    Select an image below to reduce its file size directly in your browser.
+  </p>
 
-      <h2>Compress Your Image</h2>
+  <input type="file" id="imageInput" accept="image/*">
 
-      <p>
-        Select an image below to reduce its file size.
-      </p>
+  <br>
 
-      <input type="file" id="imageInput" accept="image/*">
+  <button onclick="compressImage()">Compress Image</button>
 
-      <br>
+  <div id="result"></div>
 
-      <button onclick="compressImage()">Compress Image</button>
+</section>
 
-      <div id="result"></div>
+<section class="content-box">
 
-    </section>
+  <h2>What Is an Image Compressor?</h2>
 
-    <section class="content-box">
+  <p>
+    An image compressor reduces the file size of an image while maintaining
+    useful visual quality. Smaller image files are easier to store, share,
+    upload and use on websites.
+  </p>
 
-      <h2>What Is an Image Compressor?</h2>
+  <p>
+    This free image compressor works directly in your web browser.
+    You can select an image, process it and download the compressed result
+    without creating an account or installing software.
+  </p>
 
-      <p>
-        An image compressor reduces the file size of an image while trying
-        to maintain useful visual quality. Smaller image files are easier
-        to store, share, upload and use on websites.
-      </p>
+</section>
 
-      <p>
-        This free image compressor works directly in your web browser.
-        You can select an image, process it and download the compressed
-        result without creating an account.
-      </p>
+<section class="content-box">
 
-    </section>
+  <h2>How to Compress an Image</h2>
 
-    <section class="content-box">
+  <ol>
+    <li>Select an image from your device.</li>
+    <li>Click the <strong>Compress Image</strong> button.</li>
+    <li>Wait for the image to be processed.</li>
+    <li>Compare the original and compressed file sizes.</li>
+    <li>Download the compressed image.</li>
+  </ol>
 
-      <h2>How to Compress an Image</h2>
+</section>
 
-      <ol>
-        <li>Select an image from your device.</li>
-        <li>Click the <strong>Compress Image</strong> button.</li>
-        <li>Wait for the image to be processed.</li>
-        <li>Check the original and compressed file sizes.</li>
-        <li>Download the compressed image.</li>
-      </ol>
+<section class="content-box">
 
-    </section>
+  <h2>Why Compress Images?</h2>
 
-    <section class="content-box">
+  <p>
+    Large image files can take longer to upload, download and share.
+    Compressing images can reduce file size and make image files easier
+    to manage.
+  </p>
 
-      <h2>Why Compress Images?</h2>
+  <p>
+    Smaller images can also help website owners reduce the amount of data
+    required when visitors load pages containing images.
+  </p>
 
-      <p>
-        Large image files can take longer to upload, download and share.
-        Compressing images can help reduce file size and make image files
-        easier to manage.
-      </p>
+  <p>
+    Image compression is useful for websites, blogs, social media,
+    email attachments, online stores and everyday file sharing.
+  </p>
 
-      <p>
-        Website owners can also use smaller image files to reduce the amount
-        of data required when visitors load pages containing images.
-      </p>
+</section>
 
-    </section>
+<section class="content-box">
 
-    <section class="content-box">
+  <h2>Frequently Asked Questions</h2>
 
-      <h2>Frequently Asked Questions</h2>
+  <h3>Is this image compressor free?</h3>
+  <p>
+    Yes. The tool is free to use and does not require an account.
+  </p>
 
-      <h3>Is this image compressor free?</h3>
-      <p>
-        Yes. The tool is free to use and does not require an account.
-      </p>
+  <h3>Do I need to install software?</h3>
+  <p>
+    No. The compressor works directly in your web browser.
+  </p>
 
-      <h3>Do I need to install software?</h3>
-      <p>
-        No. The compressor works directly in your web browser.
-      </p>
+  <h3>Are my images uploaded to a server?</h3>
+  <p>
+    The image processing is performed directly in your browser.
+    The tool does not require you to upload your image to a separate
+    image-processing service.
+  </p>
 
-      <h3>Are my images uploaded to a server?</h3>
-      <p>
-        The image processing is performed directly in your browser.
-        The tool does not require you to upload your image to a separate
-        image-processing service.
-      </p>
+  <h3>Will compression affect image quality?</h3>
+  <p>
+    Image compression can reduce some visual quality depending on the
+    compression settings and the original image. The goal is to reduce
+    file size while keeping the result useful.
+  </p>
 
-      <h3>Will compression affect image quality?</h3>
-      <p>
-        Image compression can reduce some visual quality depending on the
-        compression settings and the original image. The goal is to reduce
-        file size while keeping the result useful.
-      </p>
+</section>
 
-    </section>
+<section class="content-box">
 
-    <section class="content-box">
+  <h2>More Free Image Tools</h2>
 
-      <h2>More Free Image Tools</h2>
+  <div class="tool-links">
+    <a href="resize-image.html">Image Resizer</a> |
+    <a href="jpg-to-png.html">JPG to PNG</a> |
+    <a href="png-to-jpg.html">PNG to JPG</a> |
+    <a href="remove-background.html">Remove Background</a>
+  </div>
 
-      <p>
-        <a href="resize-image.html">Image Resizer</a> |
-        <a href="jpg-to-png.html">JPG to PNG</a> |
-        <a href="png-to-jpg.html">PNG to JPG</a> |
-        <a href="remove-background.html">Remove Background</a>
-      </p>
+</section>
 
-    </section>
+  </main>  <footer><p>
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="privacy.html">Privacy Policy</a>
+  <a href="contact.html">Contact</a>
+  <a href="terms.html">Terms of Service</a>
+  <a href="disclaimer.html">Disclaimer</a>
+</p>
 
-  </main>
+<p>© 2026 Free Image Tools. All rights reserved.</p>
 
-  <footer>
-
-    <p>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="contact.html">Contact</a>
-    </p>
-
-    <p>© 2026 Free Image Tools. All rights reserved.</p>
-
-  </footer>
-
-  <script>
+  </footer>  <script>
     function compressImage() {
 
       const input = document.getElementById("imageInput");
@@ -310,7 +366,8 @@
           canvas.toBlob(function(blob) {
 
             if (!blob) {
-              result.innerHTML = "<p>Compression failed. Please try another image.</p>";
+              result.innerHTML =
+                "<p>Compression failed. Please try another image.</p>";
               return;
             }
 
@@ -352,10 +409,9 @@
       const units = ["Bytes", "KB", "MB", "GB"];
       const i = Math.floor(Math.log(bytes) / Math.log(1024));
 
-      return parseFloat((bytes / Math.pow(1024, i)).toFixed(2))
-        + " " + units[i];
+      return parseFloat(
+        (bytes / Math.pow(1024, i)).toFixed(2)
+      ) + " " + units[i];
     }
-  </script>
-
-</body>
+  </script></body>
 </html>

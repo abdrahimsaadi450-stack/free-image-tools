@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Free AI Background Remover – Remove Background Online</title>
+<title>Free AI Background Remover Online</title>
 
-<meta name="description" content="Remove image backgrounds online for free with AI. Create clean transparent PNG images directly in your browser. No upload required.">
+<meta name="description" content="Remove image backgrounds online for free with AI. Create clean transparent PNG images directly in your browser.">
 
 <link rel="canonical" href="https://abdrahimsaadi450-stack.github.io/free-image-tools/remove-background.html">
 
 <style>
+
 *{
     box-sizing:border-box;
 }
@@ -18,74 +19,73 @@
 body{
     margin:0;
     font-family:Arial,Helvetica,sans-serif;
-    background:#f6f8fb;
+    background:#f5f7fb;
     color:#172033;
 }
 
 header{
-    background:linear-gradient(135deg,#111827,#1f2937);
+    background:linear-gradient(135deg,#111827,#263449);
     color:white;
     text-align:center;
-    padding:42px 18px 38px;
+    padding:42px 18px;
 }
 
 header h1{
     margin:0;
     font-size:32px;
-    line-height:1.2;
 }
 
 header p{
-    margin:12px auto 0;
     max-width:650px;
-    color:#dbe3ef;
-    font-size:16px;
+    margin:12px auto 0;
+    color:#dbe4f0;
     line-height:1.6;
 }
 
 .container{
-    max-width:980px;
-    margin:32px auto;
+    max-width:950px;
+    margin:30px auto;
     padding:0 16px;
 }
 
 .tool{
     background:white;
-    border-radius:18px;
     padding:25px;
+    border-radius:18px;
     box-shadow:0 8px 30px rgba(0,0,0,.08);
 }
 
-.upload-area{
+.upload{
+    display:block;
     border:2px dashed #cbd5e1;
-    border-radius:14px;
-    padding:28px 18px;
+    border-radius:15px;
+    padding:30px 20px;
     text-align:center;
-    background:#fafbfc;
     cursor:pointer;
+    background:#fafbfc;
 }
 
-.upload-area:hover{
+.upload:hover{
     border-color:#64748b;
 }
 
 .upload-icon{
-    font-size:40px;
-    margin-bottom:8px;
+    font-size:42px;
 }
 
 .upload-title{
-    font-size:18px;
+    margin-top:8px;
+    font-size:19px;
     font-weight:bold;
 }
 
-.upload-subtitle{
-    margin-top:7px;
+.upload-text{
+    margin-top:8px;
     color:#64748b;
     font-size:14px;
 }
 
-input[type=file]{
+#fileInput{
     display:none;
 }
 
@@ -102,19 +102,14 @@ button{
     cursor:pointer;
 }
 
-button:hover{
-    background:#1f2937;
-}
-
 button:disabled{
     opacity:.5;
     cursor:not-allowed;
 }
 
-.status{
+#status{
     text-align:center;
     margin-top:18px;
-    font-size:15px;
     font-weight:bold;
 }
 
@@ -122,55 +117,53 @@ button:disabled{
     display:none;
     width:100%;
     height:8px;
-    margin-top:14px;
-    border-radius:20px;
     background:#e5e7eb;
+    border-radius:20px;
     overflow:hidden;
+    margin-top:15px;
 }
 
-.progress-bar{
-    width:0%;
+.progressBar{
+    width:0;
     height:100%;
     background:#111827;
-    transition:width .3s ease;
+    transition:width .3s;
 }
 
-.results{
+.result{
     display:none;
     margin-top:28px;
 }
 
-.results-title{
+.result-title{
     text-align:center;
     font-size:20px;
     font-weight:bold;
     margin-bottom:15px;
 }
 
-.preview{
-    width:100%;
+.checker{
+    padding:15px;
     border-radius:14px;
-    padding:14px;
 
-    background-color:#eee;
+    background-color:#eeeeee;
 
     background-image:
-    linear-gradient(45deg,#d4d4d4 25%,transparent 25%),
-    linear-gradient(-45deg,#d4d4d4 25%,transparent 25%),
-    linear-gradient(45deg,transparent 75%,#d4d4d4 75%),
-    linear-gradient(-45deg,transparent 75%,#d4d4d4 75%);
+    linear-gradient(45deg,#d1d1d1 25%,transparent 25%),
+    linear-gradient(-45deg,#d1d1d1 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,#d1d1d1 75%),
+    linear-gradient(-45deg,transparent 75%,#d1d1d1 75%);
 
     background-size:20px 20px;
+
     background-position:
     0 0,
     0 10px,
     10px -10px,
     -10px 0;
-
-    text-align:center;
 }
 
-.preview img{
+#resultImage{
     display:block;
     max-width:100%;
     max-height:650px;
@@ -182,16 +175,12 @@ button:disabled{
     display:block;
     margin-top:18px;
     padding:15px;
+    border-radius:10px;
     background:#16a34a;
     color:white;
-    text-align:center;
     text-decoration:none;
-    border-radius:10px;
+    text-align:center;
     font-weight:bold;
-}
-
-.download:hover{
-    background:#15803d;
 }
 
 .info{
@@ -199,17 +188,12 @@ button:disabled{
     background:white;
     padding:28px;
     border-radius:18px;
-    box-shadow:0 5px 20px rgba(0,0,0,.05);
     line-height:1.75;
+    box-shadow:0 5px 20px rgba(0,0,0,.05);
 }
 
 .info h2{
-    margin-top:0;
     color:#111827;
-}
-
-.info h2:not(:first-child){
-    margin-top:28px;
 }
 
 footer{
@@ -218,6 +202,14 @@ footer{
     color:#64748b;
     font-size:14px;
 }
+
+.small{
+    font-size:13px;
+    color:#64748b;
+    text-align:center;
+    margin-top:10px;
+}
+
 </style>
 </head>
 
@@ -228,8 +220,8 @@ footer{
 <h1>Free AI Background Remover</h1>
 
 <p>
-Remove backgrounds from photos online and download a clean transparent PNG.
-Your image is processed directly in your browser.
+Remove backgrounds from photos and objects with AI.
+Create a clean transparent PNG directly in your browser.
 </p>
 
 </header>
@@ -239,7 +231,7 @@ Your image is processed directly in your browser.
 
 <div class="tool">
 
-<label class="upload-area" for="fileInput">
+<label class="upload" for="fileInput">
 
 <div class="upload-icon">🖼️</div>
 
@@ -247,7 +239,7 @@ Your image is processed directly in your browser.
 Choose an Image
 </div>
 
-<div class="upload-subtitle">
+<div class="upload-text">
 JPG, PNG, WEBP and other common image formats
 </div>
 
@@ -268,10 +260,7 @@ Remove Background
 </button>
 
 
-<div
-class="status"
-id="status"
->
+<div id="status">
 Choose an image to begin.
 </div>
 
@@ -282,7 +271,7 @@ id="progress"
 >
 
 <div
-class="progress-bar"
+class="progressBar"
 id="progressBar"
 ></div>
 
@@ -290,19 +279,27 @@ id="progressBar"
 
 
 <div
-class="results"
-id="results"
+class="small"
+id="modelInfo"
+>
+AI processing runs directly in your browser.
+</div>
+
+
+<div
+class="result"
+id="result"
 >
 
-<div class="results-title">
+<div class="result-title">
 Background Removed
 </div>
 
-<div class="preview">
+<div class="checker">
 
 <img
 id="resultImage"
-alt="Image with background removed"
+alt="Transparent image with background removed"
 >
 
 </div>
@@ -325,45 +322,44 @@ Download Transparent PNG
 <h2>Free AI Background Remover Online</h2>
 
 <p>
-Remove the background from an image automatically using AI.
-The tool creates a transparent PNG that you can download and use
-for products, portraits, social media graphics, thumbnails and more.
+Remove backgrounds from people, products, animals and objects
+using an AI-powered background removal model.
+The result is saved as a transparent PNG.
 </p>
 
 
-<h2>How to Remove an Image Background</h2>
+<h2>How to Remove a Background</h2>
 
 <p>
-Choose an image from your phone or computer and click
-<strong>Remove Background</strong>. The AI processes the image
-directly in your browser and creates a transparent PNG.
+Choose your image, click <strong>Remove Background</strong>,
+wait for the AI processing to finish, then download your
+transparent PNG.
 </p>
 
 
-<h2>Private Image Processing</h2>
+<h2>Private Browser Processing</h2>
 
 <p>
-Your image is processed directly in your browser.
-No account is required and you do not need to upload your
-personal images to a separate server.
+The image is processed directly in your browser.
+No account is required and you do not need to upload
+your image to a separate image-editing website.
 </p>
 
 
 <h2>Best Results</h2>
 
 <p>
-For the cleanest results, use a clear image where the main
-person, product or object is visible and reasonably separated
-from the background.
+Clear images with a visible subject and good contrast between
+the subject and the background generally produce the best results.
 </p>
 
 
-<h2>Free Online Image Tool</h2>
+<h2>Free Image Tool</h2>
 
 <p>
-Free Image Tools provides simple browser-based image utilities
-for everyday image editing, conversion, resizing and background
-removal.
+Free Image Tools provides free browser-based tools for
+image compression, resizing, format conversion and
+AI background removal.
 </p>
 
 </div>
@@ -399,8 +395,8 @@ document.getElementById("progress");
 const progressBar =
 document.getElementById("progressBar");
 
-const results =
-document.getElementById("results");
+const result =
+document.getElementById("result");
 
 const resultImage =
 document.getElementById("resultImage");
@@ -413,12 +409,12 @@ let selectedFile = null;
 
 let remover = null;
 
-let processing = false;
+let busy = false;
 
 
-/* -------------------------
-   FILE SELECTION
-------------------------- */
+/* -----------------------------
+   SELECT IMAGE
+----------------------------- */
 
 fileInput.addEventListener(
 "change",
@@ -440,7 +436,8 @@ return;
 
 removeBtn.disabled = false;
 
-results.style.display = "none";
+result.style.display =
+"none";
 
 status.textContent =
 "Image ready. Click Remove Background.";
@@ -449,9 +446,9 @@ status.textContent =
 );
 
 
-/* -------------------------
-   LOAD AI MODEL
-------------------------- */
+/* -----------------------------
+   LOAD BEN2
+----------------------------- */
 
 async function loadModel(){
 
@@ -460,19 +457,21 @@ return;
 }
 
 status.textContent =
-"Loading AI model...";
+"Loading AI background remover...";
 
 progress.style.display =
 "block";
 
 progressBar.style.width =
-"20%";
+"15%";
 
 
 try{
 
 /*
-Use WebGPU when available.
+WebGPU first.
+This is the fastest browser option
+when the device supports it.
 */
 
 if(navigator.gpu){
@@ -480,22 +479,24 @@ if(navigator.gpu){
 remover =
 await pipeline(
 "background-removal",
-"Xenova/modnet",
+"onnx-community/BEN2-ONNX",
 {
-device:"webgpu",
-dtype:"q8"
+device:"webgpu"
 }
 );
 
 }else{
 
+/*
+WASM fallback.
+*/
+
 remover =
 await pipeline(
 "background-removal",
-"Xenova/modnet",
+"onnx-community/BEN2-ONNX",
 {
-device:"wasm",
-dtype:"q8"
+device:"wasm"
 }
 );
 
@@ -504,17 +505,16 @@ dtype:"q8"
 }catch(error){
 
 console.log(
-"WebGPU unavailable. Using WASM.",
+"WebGPU unavailable. Falling back to WASM.",
 error
 );
 
 remover =
 await pipeline(
 "background-removal",
-"Xenova/modnet",
+"onnx-community/BEN2-ONNX",
 {
-device:"wasm",
-dtype:"q8"
+device:"wasm"
 }
 );
 
@@ -526,9 +526,9 @@ progressBar.style.width =
 }
 
 
-/* -------------------------
+/* -----------------------------
    REMOVE BACKGROUND
-------------------------- */
+----------------------------- */
 
 removeBtn.addEventListener(
 "click",
@@ -536,12 +536,12 @@ async function(){
 
 if(
 !selectedFile ||
-processing
+busy
 ){
 return;
 }
 
-processing = true;
+busy = true;
 
 removeBtn.disabled = true;
 
@@ -558,108 +558,50 @@ await loadModel();
 
 
 status.textContent =
-"AI is removing the background...";
+"AI is carefully removing the background...";
 
 progressBar.style.width =
 "60%";
 
 
 /*
-IMPORTANT:
-
-The official background-removal
-pipeline already returns an RGBA
-RawImage.
-
-Do NOT modify its alpha channel.
+BEN2 returns the processed
+transparent image directly.
 */
 
 const output =
 await remover(selectedFile);
 
 
-const image =
+const processed =
 Array.isArray(output)
 ? output[0]
 : output;
 
 
 progressBar.style.width =
-"80%";
+"85%";
 
 
 /*
-Create a canvas using the
-original dimensions.
-*/
+Convert the returned RawImage
+directly to a PNG Blob.
 
-const canvas =
-document.createElement("canvas");
-
-canvas.width =
-image.width;
-
-canvas.height =
-image.height;
-
-
-const ctx =
-canvas.getContext("2d");
-
-
-/*
-Use the RGBA data exactly as
-returned by the AI model.
-
-This prevents:
-- faded subjects
-- missing clothing
-- weakened skin tones
-- damaged edges
-*/
-
-const rgba =
-new Uint8ClampedArray(
-image.data
-);
-
-
-const imageData =
-new ImageData(
-rgba,
-image.width,
-image.height
-);
-
-
-ctx.putImageData(
-imageData,
-0,
-0
-);
-
-
-/*
-Create PNG.
+No manual alpha modification.
+No fading.
+No artificial threshold.
 */
 
 const blob =
-await new Promise(
-resolve => {
-
-canvas.toBlob(
-resolve,
+await processed.toBlob(
 "image/png"
-);
-
-}
 );
 
 
 if(!blob){
 
 throw new Error(
-"Unable to create PNG."
+"Could not create transparent PNG."
 );
 
 }
@@ -669,20 +611,12 @@ const url =
 URL.createObjectURL(blob);
 
 
-/*
-Show result.
-*/
-
 resultImage.src =
 url;
 
-results.style.display =
+result.style.display =
 "block";
 
-
-/*
-Download.
-*/
 
 downloadBtn.href =
 url;
@@ -699,15 +633,10 @@ status.textContent =
 "Background removed successfully!";
 
 
-/*
-Scroll result into view
-on mobile.
-*/
-
 setTimeout(
 function(){
 
-results.scrollIntoView({
+result.scrollIntoView({
 behavior:"smooth",
 block:"start"
 });
@@ -727,11 +656,7 @@ status.textContent =
 }
 
 
-/*
-Allow another image.
-*/
-
-processing = false;
+busy = false;
 
 removeBtn.disabled = false;
 

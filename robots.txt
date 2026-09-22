@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://abdrahimsaadi450-stack.github.io/free-image-tools/sitemap.xml

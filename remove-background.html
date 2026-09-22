@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="description" content="Free online background remover. Remove simple image backgrounds directly in your browser and download a transparent PNG.">
+  <meta name="description" content="Free AI background remover. Remove image backgrounds directly in your browser and download transparent PNG images.">
 
   <meta name="robots" content="index, follow">
 
-  <title>Remove Background - Free Online Background Remover</title>
+  <title>AI Background Remover - Free Online</title>
 
   <style>
 
@@ -71,28 +71,6 @@
       background: white;
     }
 
-    .controls {
-      max-width: 520px;
-      margin: 20px auto;
-      text-align: left;
-    }
-
-    .control {
-      margin-bottom: 22px;
-    }
-
-    .control label {
-      display: flex;
-      justify-content: space-between;
-      font-weight: bold;
-      margin-bottom: 7px;
-    }
-
-    input[type="range"] {
-      width: 100%;
-      cursor: pointer;
-    }
-
     button {
       background: #111827;
       color: white;
@@ -124,35 +102,51 @@
       font-weight: bold;
     }
 
-    .preview-area {
-      margin-top: 25px;
-    }
-
-    .preview-title {
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
     #preview {
       display: block;
       max-width: 100%;
       height: auto;
-      max-height: 600px;
-      margin: 15px auto;
+      max-height: 650px;
+      margin: 20px auto;
       border: 1px solid #ddd;
       border-radius: 8px;
+
       background:
         linear-gradient(45deg, #ddd 25%, transparent 25%),
         linear-gradient(-45deg, #ddd 25%, transparent 25%),
         linear-gradient(45deg, transparent 75%, #ddd 75%),
         linear-gradient(-45deg, transparent 75%, #ddd 75%);
+
       background-size: 20px 20px;
-      background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+
+      background-position:
+        0 0,
+        0 10px,
+        10px -10px,
+        -10px 0;
     }
 
-    .status {
-      margin-top: 15px;
+    #status {
+      margin-top: 18px;
       font-weight: bold;
+    }
+
+    .progress {
+      width: 100%;
+      max-width: 520px;
+      height: 10px;
+      background: #e5e7eb;
+      border-radius: 20px;
+      margin: 15px auto;
+      overflow: hidden;
+      display: none;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: #2563eb;
+      transition: width 0.3s ease;
     }
 
     .back {
@@ -206,13 +200,14 @@
 
 <header>
 
-  <h1>Remove Background</h1>
+  <h1>AI Background Remover</h1>
 
   <p>
-    Remove simple image backgrounds and create transparent PNG images.
+    Remove image backgrounds automatically with AI.
   </p>
 
 </header>
+
 
 <main class="container">
 
@@ -220,12 +215,13 @@
     ← Back to Free Image Tools
   </a>
 
+
   <div class="tool-box">
 
-    <h2>Free Background Remover</h2>
+    <h2>Remove Image Background</h2>
 
     <p>
-      Select an image and remove its connected background directly in your browser.
+      Upload an image and let AI remove the background automatically.
     </p>
 
     <input
@@ -234,43 +230,7 @@
       accept="image/*"
     >
 
-    <div class="controls">
-
-      <div class="control">
-
-        <label>
-          <span>Removal Strength</span>
-          <span id="strengthValue">35</span>
-        </label>
-
-        <input
-          type="range"
-          id="strength"
-          min="10"
-          max="120"
-          value="35"
-        >
-
-      </div>
-
-      <div class="control">
-
-        <label>
-          <span>Edge Softness</span>
-          <span id="softnessValue">12</span>
-        </label>
-
-        <input
-          type="range"
-          id="softness"
-          min="0"
-          max="40"
-          value="12"
-        >
-
-      </div>
-
-    </div>
+    <br>
 
     <button
       type="button"
@@ -279,37 +239,42 @@
       Remove Background
     </button>
 
-    <div
-      id="status"
-      class="status"
-    ></div>
 
     <div
-      id="result"
-      class="preview-area"
-    ></div>
+      class="progress"
+      id="progress"
+    >
+      <div
+        class="progress-bar"
+        id="progressBar"
+      ></div>
+    </div>
+
+
+    <div id="status"></div>
+
+    <div id="result"></div>
 
   </div>
 
 
   <div class="content-box">
 
-    <h2>Free Online Background Remover</h2>
+    <h2>Free AI Background Remover</h2>
 
     <p>
-      Remove simple image backgrounds and create transparent PNG images
-      directly in your browser.
+      Remove backgrounds from photos automatically using an AI image
+      segmentation model running directly in your browser.
     </p>
 
     <p>
-      This tool uses a browser-based color similarity and connected-background
-      detection method. Your image does not need to be uploaded to an external
-      image-processing service.
+      No account is required and the image is processed locally in the
+      browser after the AI model has loaded.
     </p>
 
     <p>
-      For the best results, use images with a relatively simple and uniform
-      background.
+      The tool can work with people, animals, products and many other
+      foreground subjects.
     </p>
 
   </div>
@@ -317,17 +282,15 @@
 
   <div class="content-box">
 
-    <h2>How to Remove an Image Background</h2>
+    <h2>How to Remove a Background</h2>
 
     <ol>
 
-      <li>Select an image from your device.</li>
-
-      <li>Choose the removal strength.</li>
-
-      <li>Choose the edge softness.</li>
+      <li>Select an image.</li>
 
       <li>Click "Remove Background".</li>
+
+      <li>Wait while the AI model processes the image.</li>
 
       <li>Check the transparent preview.</li>
 
@@ -340,45 +303,564 @@
 
   <div class="content-box">
 
-    <h2>Tips for Better Results</h2>
+    <h2>Frequently Asked Questions</h2>
 
-    <ul>
+    <h3>Is this background remover free?</h3>
 
-      <li>
-        Use a plain or relatively uniform background.
-      </li>
+    <p>
+      Yes. The tool is free to use.
+    </p>
 
-      <li>
-        Start with the default removal strength.
-      </li>
+    <h3>Are my images uploaded?</h3>
 
-      <li>
-        Increase the strength if some background remains.
-      </li>
+    <p>
+      The image is processed directly in your browser after the AI model
+      has loaded.
+    </p>
 
-      <li>
-        Reduce the strength if parts of the subject disappear.
-      </li>
+    <h3>Does it use AI?</h3>
 
-      <li>
-        Increase edge softness when the edges look too sharp.
-      </li>
+    <p>
+      Yes. This version uses an AI image segmentation model to generate
+      the background mask.
+    </p>
 
-      <li>
-        Images with very complex backgrounds may require an AI-based
-        background removal service.
-      </li>
+    <h3>Why is the first use slow?</h3>
 
-    </ul>
+    <p>
+      The AI model must be downloaded by your browser the first time.
+      The model is much larger than normal JavaScript code, so the first
+      load can take some time.
+    </p>
+
+    <h3>What format is the result?</h3>
+
+    <p>
+      The result is downloaded as a PNG image with a transparent background.
+    </p>
 
   </div>
 
 
   <div class="content-box">
 
-    <h2>Frequently Asked Questions</h2>
-
-    <h3>Is this background remover free?</h3>
+    <h2>More Free Image Tools</h2>
 
     <p>
-      Yes. It is free to use and
+
+      <a href="compress-image.html">
+        Image Compressor
+      </a>
+
+      &nbsp;|&nbsp;
+
+      <a href="resize-image.html">
+        Image Resizer
+      </a>
+
+      &nbsp;|&nbsp;
+
+      <a href="jpg-to-png.html">
+        JPG to PNG
+      </a>
+
+      &nbsp;|&nbsp;
+
+      <a href="png-to-jpg.html">
+        PNG to JPG
+      </a>
+
+    </p>
+
+  </div>
+
+</main>
+
+
+<footer>
+
+  <p>
+
+    <a href="index.html">Home</a>
+
+    <a href="about.html">About</a>
+
+    <a href="privacy.html">Privacy Policy</a>
+
+    <a href="contact.html">Contact</a>
+
+  </p>
+
+  <p>
+    © 2026 Free Image Tools. All rights reserved.
+  </p>
+
+</footer>
+
+
+<script type="module">
+
+import {
+  pipeline,
+  RawImage
+} from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.0";
+
+
+const imageInput =
+  document.getElementById("imageInput");
+
+const removeButton =
+  document.getElementById("removeButton");
+
+const status =
+  document.getElementById("status");
+
+const result =
+  document.getElementById("result");
+
+const progress =
+  document.getElementById("progress");
+
+const progressBar =
+  document.getElementById("progressBar");
+
+
+let remover = null;
+
+
+/*
+  Load the AI model.
+*/
+
+async function loadModel() {
+
+  if (remover) {
+    return remover;
+  }
+
+  status.textContent =
+    "Loading AI model... This may take a while the first time.";
+
+  progress.style.display =
+    "block";
+
+  progressBar.style.width =
+    "10%";
+
+
+  try {
+
+    /*
+      Try WebGPU first.
+    */
+
+    try {
+
+      remover = await pipeline(
+        "image-segmentation",
+        "studioludens/birefnet-lite-512",
+        {
+          device: "webgpu",
+          dtype: "fp16"
+        }
+      );
+
+    } catch (webgpuError) {
+
+      /*
+        If WebGPU is unavailable,
+        use WASM.
+      */
+
+      status.textContent =
+        "Preparing AI model...";
+
+      remover = await pipeline(
+        "image-segmentation",
+        "studioludens/birefnet-lite-512",
+        {
+          device: "wasm",
+          dtype: "q8"
+        }
+      );
+
+    }
+
+
+    progressBar.style.width =
+      "100%";
+
+    return remover;
+
+  } catch (error) {
+
+    console.error(error);
+
+    throw new Error(
+      "The AI model could not be loaded."
+    );
+
+  }
+
+}
+
+
+/*
+  Create transparent PNG
+  using the AI mask.
+*/
+
+async function createTransparentPNG(
+  file,
+  aiMask
+) {
+
+  const image =
+    await RawImage.read(file);
+
+
+  /*
+    Convert original image to RGBA.
+  */
+
+  const rgba =
+    image.rgba();
+
+
+  const canvas =
+    document.createElement("canvas");
+
+  canvas.width =
+    rgba.width;
+
+  canvas.height =
+    rgba.height;
+
+
+  const ctx =
+    canvas.getContext("2d");
+
+
+  if (!ctx) {
+    throw new Error(
+      "Canvas is not supported."
+    );
+  }
+
+
+  const output =
+    new ImageData(
+      rgba.width,
+      rgba.height
+    );
+
+
+  const source =
+    rgba.data;
+
+
+  const maskWidth =
+    aiMask.width;
+
+  const maskHeight =
+    aiMask.height;
+
+  const maskData =
+    aiMask.data;
+
+
+  /*
+    AI mask is resized to the
+    original image dimensions
+    using nearest-neighbour mapping.
+  */
+
+  for (
+    let y = 0;
+    y < rgba.height;
+    y++
+  ) {
+
+    const maskY =
+      Math.min(
+        maskHeight - 1,
+        Math.floor(
+          y * maskHeight / rgba.height
+        )
+      );
+
+
+    for (
+      let x = 0;
+      x < rgba.width;
+      x++
+    ) {
+
+      const maskX =
+        Math.min(
+          maskWidth - 1,
+          Math.floor(
+            x * maskWidth / rgba.width
+          )
+        );
+
+
+      const sourceIndex =
+        (
+          y * rgba.width + x
+        ) * 4;
+
+
+      const maskIndex =
+        (
+          maskY * maskWidth + maskX
+        ) * aiMask.channels;
+
+
+      /*
+        The mask is normally one channel.
+      */
+
+      let alpha =
+        maskData[maskIndex];
+
+
+      /*
+        Some models return RGBA.
+        Use the first channel.
+      */
+
+      if (
+        aiMask.channels > 1
+      ) {
+
+        alpha =
+          maskData[maskIndex];
+
+      }
+
+
+      output.data[sourceIndex] =
+        source[sourceIndex];
+
+      output.data[sourceIndex + 1] =
+        source[sourceIndex + 1];
+
+      output.data[sourceIndex + 2] =
+        source[sourceIndex + 2];
+
+      output.data[sourceIndex + 3] =
+        alpha;
+
+    }
+
+  }
+
+
+  ctx.putImageData(
+    output,
+    0,
+    0
+  );
+
+
+  return new Promise(
+    function(resolve, reject) {
+
+      canvas.toBlob(
+        function(blob) {
+
+          if (!blob) {
+
+            reject(
+              new Error(
+                "Could not create PNG."
+              )
+            );
+
+            return;
+          }
+
+          resolve(blob);
+
+        },
+        "image/png"
+      );
+
+    }
+  );
+
+}
+
+
+/*
+  Main button.
+*/
+
+removeButton.addEventListener(
+  "click",
+  async function() {
+
+    const file =
+      imageInput.files[0];
+
+
+    if (!file) {
+
+      status.textContent =
+        "Please select an image first.";
+
+      return;
+
+    }
+
+
+    try {
+
+      removeButton.disabled =
+        true;
+
+      result.innerHTML = "";
+
+      progress.style.display =
+        "block";
+
+      progressBar.style.width =
+        "5%";
+
+
+      /*
+        Load AI.
+      */
+
+      const model =
+        await loadModel();
+
+
+      status.textContent =
+        "AI is analyzing your image...";
+
+
+      progressBar.style.width =
+        "60%";
+
+
+      /*
+        Run segmentation.
+      */
+
+      const output =
+        await model(file, {
+          threshold: 0.5,
+          mask_threshold: 0.5
+        });
+
+
+      if (
+        !output ||
+        !output.length
+      ) {
+
+        throw new Error(
+          "No background mask was produced."
+        );
+
+      }
+
+
+      /*
+        Choose the largest/highest-score mask.
+      */
+
+      let best =
+        output[0];
+
+
+      for (
+        let i = 1;
+        i < output.length;
+        i++
+      ) {
+
+        if (
+          (output[i].score || 0) >
+          (best.score || 0)
+        ) {
+
+          best =
+            output[i];
+
+        }
+
+      }
+
+
+      const mask =
+        best.mask;
+
+
+      progressBar.style.width =
+        "80%";
+
+
+      status.textContent =
+        "Creating transparent PNG...";
+
+
+      const blob =
+        await createTransparentPNG(
+          file,
+          mask
+        );
+
+
+      const url =
+        URL.createObjectURL(blob);
+
+
+      result.innerHTML =
+
+        '<p><strong>Background removed successfully!</strong></p>' +
+
+        '<img id="preview" ' +
+        'src="' + url + '" ' +
+        'alt="AI background removed image preview">' +
+
+        '<a id="download" ' +
+        'href="' + url + '" ' +
+        'download="background-removed.png">' +
+        'Download Transparent PNG' +
+        '</a>';
+
+
+      progressBar.style.width =
+        "100%";
+
+
+      status.textContent =
+        "Done! Your transparent PNG is ready.";
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      status.textContent =
+        "The AI background remover could not process this image.";
+
+      result.innerHTML =
+        "<p>Please try another image or refresh the page and try again.</p>";
+
+    }
+
+
+    removeButton.disabled =
+      false;
+
+  }
+);
+
+</script>
+
+</body>
+</html>

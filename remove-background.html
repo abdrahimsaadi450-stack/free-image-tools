@@ -161,13 +161,19 @@
       max-height: 500px;
       border-radius: 12px;
       border: 1px solid #e5e7eb;
+
       background-image:
         linear-gradient(45deg, #eee 25%, transparent 25%),
         linear-gradient(-45deg, #eee 25%, transparent 25%),
         linear-gradient(45deg, transparent 75%, #eee 75%),
         linear-gradient(-45deg, transparent 75%, #eee 75%);
+
       background-size: 20px 20px;
-      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+      background-position:
+        0 0,
+        0 10px,
+        10px -10px,
+        -10px 0px;
     }
 
     #downloadBtn {
@@ -228,6 +234,7 @@
     }
 
     @media (max-width: 600px) {
+
       header h1 {
         font-size: 25px;
       }
@@ -280,12 +287,20 @@
     </div>
 
     <div class="preview" id="previewBox">
+
       <h3>Result</h3>
-      <img id="previewImage" alt="Background removed image">
+
+      <img
+        id="previewImage"
+        alt="Background removed image"
+      >
+
       <br>
+
       <button id="downloadBtn" type="button">
         Download Transparent PNG
       </button>
+
     </div>
 
   </div>
@@ -351,47 +366,75 @@
 
 <script type="module">
 
-  import { pipeline, RawImage } from
+  import { pipeline } from
     "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2/+esm";
 
-  const imageInput = document.getElementById("imageInput");
-  const removeBtn = document.getElementById("removeBtn");
-  const status = document.getElementById("status");
-  const previewBox = document.getElementById("previewBox");
-  const previewImage = document.getElementById("previewImage");
-  const downloadBtn = document.getElementById("downloadBtn");
+
+  const imageInput =
+    document.getElementById("imageInput");
+
+  const removeBtn =
+    document.getElementById("removeBtn");
+
+  const status =
+    document.getElementById("status");
+
+  const previewBox =
+    document.getElementById("previewBox");
+
+  const previewImage =
+    document.getElementById("previewImage");
+
+  const downloadBtn =
+    document.getElementById("downloadBtn");
+
 
   let selectedFile = null;
+
   let segmenter = null;
+
   let resultBlob = null;
+
 
   imageInput.addEventListener("change", function () {
 
-    selectedFile = this.files && this.files.length
-      ? this.files[0]
-      : null;
+    selectedFile =
+      this.files && this.files.length
+        ? this.files[0]
+        : null;
 
     previewBox.style.display = "none";
+
     downloadBtn.style.display = "none";
+
     resultBlob = null;
 
+
     if (!selectedFile) {
-      status.textContent = "Choose an image to begin.";
-      removeBtn.disabled = false;
+
+      status.textContent =
+        "Choose an image to begin.";
+
       return;
     }
 
-    const sizeMB = selectedFile.size / (1024 * 1024);
+
+    const sizeMB =
+      selectedFile.size / (1024 * 1024);
+
 
     if (sizeMB > 15) {
+
       status.textContent =
         "Large image detected. Processing may take longer on mobile.";
+
     } else {
+
       status.textContent =
         "Image selected. Tap Remove Background.";
+
     }
 
-    removeBtn.disabled = false;
   });
 
 
@@ -401,249 +444,395 @@
       return segmenter;
     }
 
+
     status.textContent =
       "Loading AI model for the first time... Please wait.";
 
-    removeBtn.disabled = true;
 
     segmenter = await pipeline(
       "background-removal",
       "onnx-community/BEN2-ONNX",
       {
-        device: "wasm",
-        dtype: "q8"
+        device: "wasm"
       }
     );
+
 
     return segmenter;
   }
 
 
-  removeBtn.addEventListener("click", async function () {
+  removeBtn.addEventListener(
+    "click",
+    async function () {
 
-    if (!selectedFile) {
-      status.textContent =
-        "Please choose an image first.";
-      return;
-    }
+      if (!selectedFile) {
 
-    removeBtn.disabled = true;
-    downloadBtn.style.display = "none";
-    previewBox.style.display = "none";
+        status.textContent =
+          "Please choose an image first.";
 
-    try {
-
-      status.textContent =
-        "Preparing image...";
-
-      const imageURL = URL.createObjectURL(selectedFile);
-
-      status.textContent =
-        "Loading AI background remover...";
-
-      const model = await loadModel();
-
-      status.textContent =
-        "Removing background... This may take a little while on mobile.";
-
-      const output = await model(imageURL);
-
-      URL.revokeObjectURL(imageURL);
-
-      if (!output || !output.length) {
-        throw new Error("No background mask was returned.");
+        return;
       }
 
-      status.textContent =
-        "Creating transparent PNG...";
 
-      const mask = output[0];
+      removeBtn.disabled = true;
 
-      const originalBitmap =
-        await createImageBitmap(selectedFile);
+      downloadBtn.style.display = "none";
 
-      const width = originalBitmap.width;
-      const height = originalBitmap.height;
+      previewBox.style.display = "none";
 
-      const canvas = document.createElement("canvas");
 
-      canvas.width = width;
-      canvas.height = height;
+      let imageURL = null;
 
-      const ctx = canvas.getContext("2d", {
-        willReadFrequently: true
-      });
 
-      ctx.drawImage(
-        originalBitmap,
-        0,
-        0,
-        width,
-        height
-      );
+      try {
 
-      const originalData =
-        ctx.getImageData(0, 0, width, height);
+        status.textContent =
+          "Preparing image...";
 
-      const maskCanvas =
-        document.createElement("canvas");
 
-      maskCanvas.width = mask.width;
-      maskCanvas.height = mask.height;
+        imageURL =
+          URL.createObjectURL(selectedFile);
 
-      const maskCtx =
-        maskCanvas.getContext("2d", {
-          willReadFrequently: true
-        });
 
-      const maskData =
-        new ImageData(
-          new Uint8ClampedArray(mask.data),
-          mask.width,
-          mask.height
-        );
+        status.textContent =
+          "Loading AI model...";
 
-      maskCtx.putImageData(maskData, 0, 0);
 
-      const resizedMask =
-        document.createElement("canvas");
+        const model =
+          await loadModel();
 
-      resizedMask.width = width;
-      resizedMask.height = height;
 
-      const resizedCtx =
-        resizedMask.getContext("2d", {
-          willReadFrequently: true
-        });
+        status.textContent =
+          "Removing background... Please wait.";
 
-      resizedCtx.drawImage(
-        maskCanvas,
-        0,
-        0,
-        width,
-        height
-      );
 
-      const finalMask =
-        resizedCtx.getImageData(
+        /*
+         * IMPORTANT:
+         * BEN2 expects an ARRAY of images.
+         */
+
+        const output =
+          await model([imageURL]);
+
+
+        if (!output || !output.length) {
+
+          throw new Error(
+            "The AI model returned no result."
+          );
+
+        }
+
+
+        /*
+         * BEN2 returns a RawImage mask.
+         */
+
+        const mask =
+          output[0];
+
+
+        status.textContent =
+          "Creating transparent PNG...";
+
+
+        const maskCanvas =
+          mask.toCanvas();
+
+
+        const originalBitmap =
+          await createImageBitmap(
+            selectedFile
+          );
+
+
+        const width =
+          originalBitmap.width;
+
+        const height =
+          originalBitmap.height;
+
+
+        const canvas =
+          document.createElement("canvas");
+
+
+        canvas.width = width;
+
+        canvas.height = height;
+
+
+        const ctx =
+          canvas.getContext("2d", {
+            willReadFrequently: true
+          });
+
+
+        /*
+         * Draw original image.
+         */
+
+        ctx.drawImage(
+          originalBitmap,
           0,
           0,
           width,
           height
         );
 
-      const pixels = originalData.data;
-      const alpha = finalMask.data;
-
-      for (let i = 0, p = 0; i < pixels.length; i += 4, p += 4) {
-
-        let a = alpha[p];
 
         /*
-         * Smooth the edge slightly.
-         * This helps preserve hair and fine details.
+         * Read original pixels.
          */
 
-        if (a < 20) {
-          a = 0;
-        } else if (a > 235) {
-          a = 255;
+        const originalData =
+          ctx.getImageData(
+            0,
+            0,
+            width,
+            height
+          );
+
+
+        /*
+         * Read AI mask.
+         */
+
+        const maskCtx =
+          maskCanvas.getContext("2d", {
+            willReadFrequently: true
+          });
+
+
+        const maskData =
+          maskCtx.getImageData(
+            0,
+            0,
+            maskCanvas.width,
+            maskCanvas.height
+          );
+
+
+        /*
+         * Convert AI mask to the
+         * original image size.
+         */
+
+        const resizedMask =
+          document.createElement("canvas");
+
+
+        resizedMask.width = width;
+
+        resizedMask.height = height;
+
+
+        const resizedCtx =
+          resizedMask.getContext("2d", {
+            willReadFrequently: true
+          });
+
+
+        resizedCtx.drawImage(
+          maskCanvas,
+          0,
+          0,
+          width,
+          height
+        );
+
+
+        const finalMask =
+          resizedCtx.getImageData(
+            0,
+            0,
+            width,
+            height
+          );
+
+
+        const pixels =
+          originalData.data;
+
+        const alpha =
+          finalMask.data;
+
+
+        /*
+         * Apply mask.
+         *
+         * BEN2 mask is grayscale.
+         * Red channel represents the mask.
+         */
+
+        for (
+          let i = 0;
+          i < pixels.length;
+          i += 4
+        ) {
+
+          const maskValue =
+            alpha[i];
+
+
+          pixels[i + 3] =
+            maskValue;
+
         }
 
-        pixels[i + 3] =
-          Math.min(
-            pixels[i + 3],
-            a
+
+        /*
+         * Put transparent pixels
+         * back onto the canvas.
+         */
+
+        ctx.putImageData(
+          originalData,
+          0,
+          0
+        );
+
+
+        /*
+         * Convert to PNG.
+         */
+
+        resultBlob =
+          await new Promise(
+            function(resolve, reject) {
+
+              canvas.toBlob(
+                function(blob) {
+
+                  if (blob) {
+
+                    resolve(blob);
+
+                  } else {
+
+                    reject(
+                      new Error(
+                        "Could not create PNG."
+                      )
+                    );
+
+                  }
+
+                },
+                "image/png"
+              );
+
+            }
           );
+
+
+        /*
+         * Show result.
+         */
+
+        const resultURL =
+          URL.createObjectURL(
+            resultBlob
+          );
+
+
+        previewImage.src =
+          resultURL;
+
+
+        previewBox.style.display =
+          "block";
+
+
+        downloadBtn.style.display =
+          "inline-block";
+
+
+        status.textContent =
+          "✓ Background removed successfully!";
+
+
+      } catch (error) {
+
+        console.error(
+          "Background removal error:",
+          error
+        );
+
+
+        status.textContent =
+          "The AI could not process this image. Please try a smaller JPG or PNG image.";
+
+      } finally {
+
+        if (imageURL) {
+
+          URL.revokeObjectURL(
+            imageURL
+          );
+
+        }
+
+
+        removeBtn.disabled =
+          false;
+
       }
 
-      ctx.putImageData(
-        originalData,
-        0,
-        0
+    }
+  );
+
+
+  downloadBtn.addEventListener(
+    "click",
+    function () {
+
+      if (!resultBlob) {
+        return;
+      }
+
+
+      const url =
+        URL.createObjectURL(
+          resultBlob
+        );
+
+
+      const link =
+        document.createElement("a");
+
+
+      link.href = url;
+
+      link.download =
+        "background-removed.png";
+
+
+      document.body.appendChild(
+        link
       );
 
-      resultBlob = await new Promise(
-        function(resolve, reject) {
 
-          canvas.toBlob(
-            function(blob) {
+      link.click();
 
-              if (blob) {
-                resolve(blob);
-              } else {
-                reject(
-                  new Error(
-                    "Could not create PNG."
-                  )
-                );
-              }
 
-            },
-            "image/png"
+      link.remove();
+
+
+      setTimeout(
+        function () {
+
+          URL.revokeObjectURL(
+            url
           );
 
-        }
+        },
+        1000
       );
 
-      previewImage.src =
-        URL.createObjectURL(resultBlob);
-
-      previewBox.style.display = "block";
-      downloadBtn.style.display = "inline-block";
-
-      status.textContent =
-        "✓ Background removed successfully!";
-
-    } catch (error) {
-
-      console.error(
-        "Background removal error:",
-        error
-      );
-
-      status.textContent =
-        "Something went wrong. Please try another image or refresh the page.";
-
-    } finally {
-
-      removeBtn.disabled = false;
-
     }
-
-  });
-
-
-  downloadBtn.addEventListener("click", function () {
-
-    if (!resultBlob) {
-      return;
-    }
-
-    const url =
-      URL.createObjectURL(resultBlob);
-
-    const link =
-      document.createElement("a");
-
-    link.href = url;
-    link.download =
-      "background-removed.png";
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    link.remove();
-
-    setTimeout(
-      function() {
-        URL.revokeObjectURL(url);
-      },
-      1000
-    );
-
-  });
+  );
 
 </script>
 
